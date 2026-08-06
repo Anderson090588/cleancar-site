@@ -1,146 +1,943 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+/* ======================================
+   CLEAN CAR - STYLE PRINCIPAL
+====================================== */
 
 
-body{
+/* ======================================
+   RESET
+====================================== */
 
-    font-family:'Poppins', sans-serif;
+* {
 
-    background:var(--black-primary);
+    margin: 0;
 
-    color:var(--white-primary);
+    padding: 0;
 
-    overflow-x:hidden;
-
-}
-
-
-/* NAVBAR */
-
-.navbar-clean{
-
-    background:transparent;
-
-    padding:20px 0;
-
-    transition:var(--transition-default);
+    box-sizing: border-box;
 
 }
 
 
-.logo{
 
-    font-size:28px;
+body {
 
-    font-weight:700;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
 
-    letter-spacing:5px;
+    background: #111;
 
-    color:white !important;
-
-}
-
-
-.nav-link{
-
-    color:white !important;
-
-    margin:0 10px;
+    color: #ffffff;
 
 }
 
 
-.btn-gold{
 
-    background:var(--gold-primary);
-
-    color:#000;
-
-    border:none;
-
-    padding:12px 30px;
-
-    border-radius:50px;
-
-    font-weight:600;
-
-    transition:var(--transition-default);
-
-}
+/* ======================================
+   HERO
+====================================== */
 
 
-.btn-gold:hover{
+.hero {
 
-    transform:translateY(-4px);
-
-}
+    min-height: 100vh;
 
 
-/* HERO */
+    background-image:
 
-.hero{
+    linear-gradient(
 
-    min-height:100vh;
+        rgba(0,0,0,0.70),
+
+        rgba(0,0,0,0.70)
+
+    ),
+
+    url("../assets/images/hero/hero-lancer.jpg");
+
+
+    background-size: cover;
+
+
+    background-position: center;
+
+
+    background-repeat: no-repeat;
+
 
     display:flex;
 
+
     align-items:center;
 
-    position:relative;
 
-    background:
-
-    radial-gradient(
-        circle at center,
-        #292929,
-        #0D0D0D 70%
-    );
+    padding:40px;
 
 }
 
 
-.hero h1{
 
-    font-size:clamp(40px,5vw,70px);
+/* ======================================
+   CONTEÚDO HERO
+====================================== */
+
+
+.hero-content {
+
+    max-width:650px;
+
+}
+
+
+
+.hero-content h1 {
+
+
+    font-size:3.5rem;
+
+
+    font-weight:800;
+
+
+    margin-bottom:20px;
+
+
+    letter-spacing:2px;
+
+
+    text-shadow:
+
+    0 3px 15px rgba(0,0,0,0.8);
+
+
+}
+
+
+
+.hero-content p {
+
+
+    font-size:1.2rem;
+
+
+    line-height:1.6;
+
+
+    color:#dddddd;
+
+
+    margin-bottom:30px;
+
+
+    text-shadow:
+
+    0 2px 10px rgba(0,0,0,0.8);
+
+
+}
+
+
+
+/* ======================================
+   BOTÃO PRINCIPAL
+====================================== */
+
+
+.hero-button {
+
+
+    display:inline-block;
+
+
+    background:#f5c400;
+
+
+    color:#111;
+
+
+    padding:16px 40px;
+
+
+    border-radius:30px;
+
+
+    text-decoration:none;
+
 
     font-weight:700;
 
-    line-height:1.1;
+
+    font-size:1.1rem;
+
+
+    box-shadow:
+
+    0 10px 30px rgba(245,196,0,0.35);
+
+
+    transition:.3s ease;
+
 
 }
 
 
-.hero p{
 
-    color:var(--gray-text);
+.hero-button:hover {
 
-    font-size:20px;
 
-    margin:30px 0;
+    transform:translateY(-5px);
+
+
+    box-shadow:
+
+    0 15px 35px rgba(245,196,0,0.5);
+
 
 }
 
 
-.badge-clean{
 
-    color:var(--gold-primary);
+/* ======================================
+   NAVBAR
+====================================== */
 
-    letter-spacing:3px;
 
-    font-size:14px;
+.navbar {
+
+
+    position:absolute;
+
+
+    top:0;
+
+
+    left:0;
+
+
+    width:100%;
+
+
+    padding:30px 60px;
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    z-index:10;
+
 
 }
 
 
-/* CARRO TEMPORÁRIO */
 
-.hero-car{
+.logo {
 
-    font-size:180px;
 
-    opacity:.8;
+    font-size:2rem;
+
+
+    font-weight:800;
+
+
+    color:white;
+
+
+    letter-spacing:2px;
+
+
+    text-shadow:
+
+    0 3px 15px rgba(0,0,0,0.8);
+
+
+}
+
+
+
+.logo span {
+
+
+    color:#f5c400;
+
+
+}
+
+
+
+.nav-links {
+
+
+    display:flex;
+
+
+    gap:35px;
+
+
+    list-style:none;
+
+
+}
+
+
+
+.nav-links a {
+
+
+    color:white;
+
+
+    text-decoration:none;
+
+
+    font-weight:500;
+
+
+    transition:.3s;
+
+
+    text-shadow:
+
+    0 3px 15px rgba(0,0,0,0.8);
+
+
+}
+
+
+
+.nav-links a:hover {
+
+
+    color:#f5c400;
+
+
+}
+
+
+
+/* ======================================
+   SERVIÇOS PREMIUM
+====================================== */
+
+
+.services {
+
+
+    background:
+
+    linear-gradient(
+
+        180deg,
+
+        #111,
+
+        #0b0b0b
+
+    );
+
+
+    padding:100px 0;
+
+
+}
+
+
+
+.badge-clean {
+
+
+    display:inline-block;
+
+
+    color:#f5c400;
+
+
+    border:1px solid rgba(245,196,0,0.4);
+
+
+    padding:8px 22px;
+
+
+    border-radius:30px;
+
+
+    font-size:.85rem;
+
+
+    font-weight:700;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+.services h2 {
+
+
+    color:white;
+
+
+    font-size:2.6rem;
+
+
+    font-weight:700;
+
+
+}
+
+
+
+.services p {
+
+
+    color:#b8b8b8;
+
+
+}
+
+
+
+/* CARDS */
+
+.service-card {
+
+
+    background:
+
+    linear-gradient(
+
+        145deg,
+
+        #1b1b1b,
+
+        #111
+
+    );
+
+
+    border:
+
+    1px solid rgba(245,196,0,0.15);
+
+
+    padding:40px 25px;
+
+
+    border-radius:18px;
+
+
+    height:100%;
+
+
+    text-align:center;
+
+
+    transition:.4s ease;
+
+
+    position:relative;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+.service-card::before {
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    top:0;
+
+
+    left:-100%;
+
+
+    width:100%;
+
+
+    height:2px;
+
+
+    background:#f5c400;
+
+
+    transition:.4s;
+
+
+}
+
+
+
+.service-card:hover::before {
+
+
+    left:0;
+
+
+}
+
+
+
+.service-card:hover {
+
+
+    transform:translateY(-12px);
+
+
+    border-color:#f5c400;
+
+
+    box-shadow:
+
+    0 20px 40px rgba(0,0,0,.6);
+
+
+}
+
+
+
+.service-icon {
+
+
+    font-size:3rem;
+
+
+    color:#f5c400;
+
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+.service-card h4 {
+
+
+    color:white;
+
+
+    font-weight:700;
+
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+/* ======================================
+   RESPONSIVO
+====================================== */
+
+
+@media(max-width:768px){
+
+
+    .hero-content h1 {
+
+
+        font-size:2.3rem;
+
+
+    }
+
+
+
+    .hero-content p {
+
+
+        font-size:1rem;
+
+
+    }
+
+
+
+    .navbar {
+
+
+        padding:25px;
+
+
+    }
+
+
+
+    .nav-links {
+
+
+        gap:15px;
+
+
+    }
+
+
+}
+
+/* ======================================
+   SOBRE A CLEAN CAR
+====================================== */
+
+
+.about {
+
+    background:
+
+    linear-gradient(
+        180deg,
+        #0b0b0b,
+        #111
+    );
+
+
+    padding:100px 0;
+
+}
+
+
+
+.about h2 {
+
+
+    color:white;
+
+
+    font-size:2.6rem;
+
+
+    font-weight:700;
+
+
+    margin-top:25px;
+
+
+    line-height:1.2;
+
+
+}
+
+
+
+.about p {
+
+
+    color:#b8b8b8;
+
+
+    font-size:1.1rem;
+
+
+    line-height:1.8;
+
+
+    margin-top:20px;
+
+
+}
+
+
+
+/* BOX DE INDICADORES */
+
+
+.about-box {
+
+
+    display:grid;
+
+
+    grid-template-columns:repeat(3,1fr);
+
+
+    gap:20px;
+
+
+}
+
+
+
+.about-item {
+
+
+    background:#181818;
+
+
+    border:1px solid rgba(245,196,0,0.15);
+
+
+    padding:30px 15px;
+
+
+    border-radius:15px;
+
+
+    text-align:center;
+
+
+    transition:.3s;
+
+
+}
+
+
+
+.about-item:hover {
+
+
+    transform:translateY(-8px);
+
+
+    border-color:#f5c400;
+
+
+}
+
+
+
+.about-item strong {
+
+
+    display:block;
+
+
+    color:#f5c400;
+
+
+    font-size:2rem;
+
+
+    font-weight:800;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+.about-item span {
+
+
+    color:#ddd;
+
+
+    font-size:.9rem;
+
+
+}
+
+
+
+/* RESPONSIVO */
+
+
+@media(max-width:768px){
+
+
+    .about-box {
+
+
+        grid-template-columns:1fr;
+
+
+        margin-top:40px;
+
+
+    }
+
+
+}
+
+/* ======================================
+   AGENDAMENTO
+====================================== */
+
+.schedule{
+
+    background:
+    linear-gradient(
+        180deg,
+        #111,
+        #090909
+    );
+
+    padding:100px 0;
+
+}
+
+
+
+.schedule h2{
+
+    color:white;
+
+    font-size:2.6rem;
+
+    font-weight:700;
+
+}
+
+
+
+.schedule p{
+
+    color:#bdbdbd;
+
+}
+
+
+
+.schedule-box{
+
+    max-width:900px;
+
+    margin:auto;
+
+    background:#181818;
+
+    border:1px solid rgba(245,196,0,.15);
+
+    border-radius:20px;
+
+    padding:50px;
+
+}
+
+
+
+.schedule input,
+.schedule select{
+
+    width:100%;
+
+    background:#101010;
+
+    border:1px solid #333;
+
+    color:white;
+
+    padding:16px 18px;
+
+    border-radius:12px;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+
+
+.schedule input:focus,
+.schedule select:focus{
+
+    border-color:#f5c400;
+
+    box-shadow:0 0 15px rgba(245,196,0,.2);
+
+}
+
+
+
+.schedule input::placeholder{
+
+    color:#888;
+
+}
+
+
+
+.schedule button{
+
+    background:#f5c400;
+
+    color:#111;
+
+    border:none;
+
+    padding:18px 45px;
+
+    border-radius:40px;
+
+    font-size:1rem;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+
+
+.schedule button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 10px 25px rgba(245,196,0,.35);
+
+}
+
+/* ======================================
+   NAVEGAÇÃO SUAVE
+====================================== */
+
+
+html {
+
+    scroll-behavior:smooth;
+
+}
+
+/* ======================================
+   ANIMAÇÕES
+====================================== */
+
+
+.hidden {
+
+    opacity:0;
+
+    transform:translateY(50px);
+
+}
+
+
+
+.show {
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+
+
+.service-card,
+.about-item,
+.schedule-box {
+
+    transition:
+    opacity .8s ease,
+    transform .8s ease;
 
 }

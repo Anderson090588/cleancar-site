@@ -1,52 +1,45 @@
-export function Navbar() {
-    return `
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-clean">
-            <div class="container">
+export function Navbar(){
 
-                <a class="navbar-brand logo" href="#">
-                    CLEANCAR
-                </a>
+return `
 
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menu">
+<nav class="navbar">
 
-                    <span class="navbar-toggler-icon"></span>
+    <div class="logo">
+        CLEAN<span>CAR</span>
+    </div>
 
-                </button>
 
-                <div class="collapse navbar-collapse" id="menu">
+    <ul class="nav-links">
 
-                    <ul class="navbar-nav ms-auto">
+        <li>
+            <a href="#">
+                Início
+            </a>
+        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Início</a>
-                        </li>
+        <li>
+            <a href="#">
+                Serviços
+            </a>
+        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Serviços</a>
-                        </li>
+        <li>
+            <a href="#">
+                Sobre
+            </a>
+        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Agendamento</a>
-                        </li>
+        <li>
+            <a href="#">
+                Contato
+            </a>
+        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contato</a>
-                        </li>
+    </ul>
 
-                    </ul>
 
-                    <button class="btn btn-gold ms-4">
-                        Agendar Agora
-                    </button>
+</nav>
 
-                </div>
+`;
 
-            </div>
-
-        </nav>
-    `;
 }

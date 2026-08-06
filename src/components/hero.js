@@ -8,6 +8,7 @@ export function Hero() {
 
         <div class="row align-items-center">
 
+            <!-- Texto Principal -->
             <div class="col-lg-6">
 
                 <span class="badge-clean">
@@ -15,25 +16,42 @@ export function Hero() {
                 </span>
 
                 <h1>
-                    Seu carro merece mais do que uma lavagem.
+                    Seu carro merece um cuidado à altura da sua paixão.
                 </h1>
 
                 <p>
-                    Agende serviços de estética automotiva de forma rápida,
-                    moderna e totalmente online.
+                    Agende serviços de estética automotiva com rapidez,
+                    acompanhe seu histórico e tenha uma experiência premium
+                    do início ao fim.
                 </p>
 
-                <button class="btn btn-gold btn-lg">
-                    Agendar Serviço
-                </button>
+                <div class="hero-buttons">
+
+                    <button class="btn btn-gold btn-lg">
+                        <i class="bi bi-calendar-check"></i>
+                        Agendar Serviço
+                    </button>
+
+                    <button class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-stars"></i>
+                        Ver Serviços
+                    </button>
+
+                </div>
 
             </div>
 
+            <!-- Área do Carro -->
             <div class="col-lg-6 text-center">
 
                 <div class="hero-car">
 
-                    🚗
+                    <div class="car-placeholder">
+
+                        EM BREVE<br>
+                        IMAGEM DO VEÍCULO
+
+                    </div>
 
                 </div>
 
@@ -46,4 +64,5 @@ export function Hero() {
 </section>
 
 `;
+
 }
