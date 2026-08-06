@@ -4,94 +4,143 @@
     box-sizing:border-box;
 }
 
+
 body{
 
-    font-family:'Poppins',sans-serif;
-    background:#0D0D0D;
-    color:white;
+    font-family:'Poppins', sans-serif;
+
+    background:var(--black-primary);
+
+    color:var(--white-primary);
+
+    overflow-x:hidden;
 
 }
 
-.hero{
 
-    height:100vh;
+/* NAVBAR */
 
-    display:flex;
+.navbar-clean{
 
-    justify-content:center;
+    background:transparent;
 
-    align-items:center;
+    padding:20px 0;
 
-    text-align:center;
-
-    background:linear-gradient(
-        rgba(0,0,0,.75),
-        rgba(0,0,0,.75)
-    );
+    transition:var(--transition-default);
 
 }
 
-.overlay{
 
-    width:90%;
-    max-width:800px;
+.logo{
 
-}
-
-h1{
-
-    font-size:70px;
+    font-size:28px;
 
     font-weight:700;
 
-    letter-spacing:8px;
+    letter-spacing:5px;
+
+    color:white !important;
 
 }
 
-h2{
 
-    margin-top:10px;
+.nav-link{
 
-    color:#D4AF37;
+    color:white !important;
 
-    font-weight:300;
-
-}
-
-p{
-
-    margin:40px 0;
-
-    font-size:22px;
-
-    color:#ddd;
+    margin:0 10px;
 
 }
 
-button{
 
-    background:#D4AF37;
+.btn-gold{
+
+    background:var(--gold-primary);
 
     color:#000;
 
     border:none;
 
-    padding:18px 45px;
+    padding:12px 30px;
 
     border-radius:50px;
 
-    font-size:18px;
-
     font-weight:600;
 
-    cursor:pointer;
-
-    transition:.3s;
+    transition:var(--transition-default);
 
 }
 
-button:hover{
 
-    transform:translateY(-5px);
+.btn-gold:hover{
+
+    transform:translateY(-4px);
+
+}
+
+
+/* HERO */
+
+.hero{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    position:relative;
+
+    background:
+
+    radial-gradient(
+        circle at center,
+        #292929,
+        #0D0D0D 70%
+    );
+
+}
+
+
+.hero h1{
+
+    font-size:clamp(40px,5vw,70px);
+
+    font-weight:700;
+
+    line-height:1.1;
+
+}
+
+
+.hero p{
+
+    color:var(--gray-text);
+
+    font-size:20px;
+
+    margin:30px 0;
+
+}
+
+
+.badge-clean{
+
+    color:var(--gold-primary);
+
+    letter-spacing:3px;
+
+    font-size:14px;
+
+}
+
+
+/* CARRO TEMPORÁRIO */
+
+.hero-car{
+
+    font-size:180px;
+
+    opacity:.8;
 
 }

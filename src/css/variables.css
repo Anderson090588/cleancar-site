@@ -1,0 +1,13 @@
+:root {
+
+    --black-primary: #0D0D0D;
+    --black-secondary: #151515;
+
+    --gold-primary: #D4AF37;
+
+    --white-primary: #FFFFFF;
+    --gray-text: #B5B5B5;
+
+    --transition-default: .3s ease;
+
+}
