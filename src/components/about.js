@@ -14,7 +14,7 @@ export function About() {
                 <div class="about-image">
 
                     <img
-                        src="../src/assets/images/hero/hero-lancer.jpg"
+                        src="src/assets/images/hero/hero-lancer.jpg"
                         alt="Clean Car - cuidado automotivo"
                         loading="lazy"
                     >
