@@ -5,6 +5,7 @@ import services from "../data/services.js";
 // ==========================================
 
 export function createBudget() {
+
     const section = document.createElement("section");
 
     section.className = "budget-section";
@@ -14,7 +15,10 @@ export function createBudget() {
         <div class="budget-container">
 
             <div class="budget-header">
-                <span class="budget-label">ORÇAMENTO</span>
+
+                <span class="budget-label">
+                    ORÇAMENTO
+                </span>
 
                 <h2>
                     Monte seu orçamento
@@ -24,11 +28,13 @@ export function createBudget() {
                     Selecione o veículo e os serviços desejados.
                     O valor apresentado é uma estimativa inicial.
                 </p>
+
             </div>
 
             <div class="budget-content">
 
                 <!-- TIPO DE VEÍCULO -->
+
                 <div class="budget-group">
 
                     <label for="vehicle-size">
@@ -59,19 +65,48 @@ export function createBudget() {
 
 
                 <!-- SERVIÇOS -->
+
                 <div class="budget-group">
 
                     <label>
                         Serviços
                     </label>
 
-                    <div class="services-list" id="services-list">
+                    <div
+                        class="services-list"
+                        id="services-list"
+                    ></div>
+
+                </div>
+
+
+                <!-- RESUMO -->
+
+                <div
+                    class="budget-summary"
+                    id="budget-summary"
+                >
+
+                    <h3>
+                        Resumo do orçamento
+                    </h3>
+
+                    <div
+                        class="budget-summary-list"
+                        id="budget-summary-list"
+                    >
+
+                        <p class="budget-empty">
+                            Nenhum serviço selecionado.
+                        </p>
+
                     </div>
 
                 </div>
 
 
                 <!-- RESULTADO -->
+
                 <div class="budget-result">
 
                     <span>
@@ -90,6 +125,7 @@ export function createBudget() {
 
 
                 <!-- WHATSAPP -->
+
                 <button
                     type="button"
                     id="budget-whatsapp"
@@ -104,11 +140,29 @@ export function createBudget() {
         </div>
     `;
 
-    const servicesList = section.querySelector("#services-list");
-    const vehicleSelect = section.querySelector("#vehicle-size");
-    const totalElement = section.querySelector("#budget-total");
-    const messageElement = section.querySelector("#budget-message");
-    const whatsappButton = section.querySelector("#budget-whatsapp");
+
+    // ==========================================
+    // ELEMENTOS
+    // ==========================================
+
+    const servicesList =
+        section.querySelector("#services-list");
+
+    const vehicleSelect =
+        section.querySelector("#vehicle-size");
+
+    const totalElement =
+        section.querySelector("#budget-total");
+
+    const messageElement =
+        section.querySelector("#budget-message");
+
+    const whatsappButton =
+        section.querySelector("#budget-whatsapp");
+
+    const summaryList =
+        section.querySelector("#budget-summary-list");
+
 
     // ==========================================
     // CRIA LISTA DE SERVIÇOS
@@ -116,9 +170,11 @@ export function createBudget() {
 
     services.forEach(service => {
 
-        const serviceItem = document.createElement("label");
+        const serviceItem =
+            document.createElement("label");
 
-        serviceItem.className = "service-option";
+        serviceItem.className =
+            "service-option";
 
         serviceItem.innerHTML = `
             <input
@@ -135,13 +191,68 @@ export function createBudget() {
 
                 <small>
                     ${service.category}
-                    ${service.duration ? ` • ${service.duration}` : ""}
+                    ${
+                        service.duration
+                            ? ` • ${service.duration}`
+                            : ""
+                    }
                 </small>
 
             </span>
+
+            ${
+                service.type === "quantity"
+                    ? `
+                        <input
+                            type="number"
+                            class="service-quantity"
+                            data-quantity-id="${service.id}"
+                            min="1"
+                            value="1"
+                            disabled
+                        >
+                    `
+                    : ""
+            }
         `;
 
-        servicesList.appendChild(serviceItem);
+        servicesList.appendChild(
+            serviceItem
+        );
+
+
+        // ======================================
+        // CONTROLE DA QUANTIDADE
+        // ======================================
+
+        const checkbox =
+            serviceItem.querySelector(
+                'input[type="checkbox"]'
+            );
+
+        const quantityInput =
+            serviceItem.querySelector(
+                ".service-quantity"
+            );
+
+        if (quantityInput) {
+
+            checkbox.addEventListener(
+                "change",
+                () => {
+
+                    quantityInput.disabled =
+                        !checkbox.checked;
+
+                    if (!checkbox.checked) {
+                        quantityInput.value = 1;
+                    }
+
+                }
+            );
+
+        }
+
     });
 
 
@@ -151,21 +262,254 @@ export function createBudget() {
 
     function formatCurrency(value) {
 
-        return value.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
+        return value.toLocaleString(
+            "pt-BR",
+            {
+                style: "currency",
+                currency: "BRL"
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // RETORNA QUANTIDADE
+    // ==========================================
+
+    function getServiceQuantity(service) {
+
+        if (service.type !== "quantity") {
+            return 1;
+        }
+
+        const quantityInput =
+            servicesList.querySelector(
+                `[data-quantity-id="${service.id}"]`
+            );
+
+        if (!quantityInput) {
+            return 1;
+        }
+
+        const quantity =
+            Number(quantityInput.value);
+
+        return quantity > 0
+            ? quantity
+            : 1;
+
+    }
+
+
+    // ==========================================
+    // RETORNA PREÇO DO SERVIÇO
+    // ==========================================
+
+    function getServicePrice(
+        service,
+        vehicleSize
+    ) {
+
+        // PREÇO POR TAMANHO
+
+        if (
+            service.type === "vehicle-size" &&
+            service.prices
+        ) {
+
+            return service.prices[
+                vehicleSize
+            ] || 0;
+
+        }
+
+
+        // PREÇO FIXO
+
+        if (
+            service.type === "fixed" &&
+            typeof service.price === "number"
+        ) {
+
+            return service.price;
+
+        }
+
+
+        // FAIXA DE PREÇO
+
+        if (
+            service.type === "range" &&
+            typeof service.minPrice === "number"
+        ) {
+
+            return service.minPrice;
+
+        }
+
+
+        // PREÇO POR QUANTIDADE
+
+        if (
+            service.type === "quantity" &&
+            typeof service.price === "number"
+        ) {
+
+            const quantity =
+                getServiceQuantity(service);
+
+            return service.price * quantity;
+
+        }
+
+
+        return 0;
+
+    }
+
+
+    // ==========================================
+    // TEXTO DO PREÇO
+    // ==========================================
+
+    function getServicePriceText(
+        service,
+        vehicleSize
+    ) {
+
+        if (service.type === "custom") {
+
+            return "Sob avaliação";
+
+        }
+
+
+        if (service.type === "included") {
+
+            return "Incluso";
+
+        }
+
+
+        const price =
+            getServicePrice(
+                service,
+                vehicleSize
+            );
+
+        return formatCurrency(price);
+
+    }
+
+
+    // ==========================================
+    // ATUALIZA RESUMO
+    // ==========================================
+
+    function updateSummary(
+        selectedServices,
+        vehicleSize
+    ) {
+
+        summaryList.innerHTML = "";
+
+
+        if (
+            selectedServices.length === 0
+        ) {
+
+            summaryList.innerHTML = `
+                <p class="budget-empty">
+                    Nenhum serviço selecionado.
+                </p>
+            `;
+
+            return;
+
+        }
+
+
+        selectedServices.forEach(input => {
+
+            const service =
+                services.find(
+                    item =>
+                        item.id ===
+                        input.dataset.serviceId
+                );
+
+            if (!service) {
+                return;
+            }
+
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "budget-summary-item";
+
+
+            let extraInfo = "";
+
+
+            if (
+                service.type === "quantity"
+            ) {
+
+                const quantity =
+                    getServiceQuantity(service);
+
+                extraInfo =
+                    ` × ${quantity}`;
+
+            }
+
+
+            const priceText =
+                getServicePriceText(
+                    service,
+                    vehicleSize
+                );
+
+
+            item.innerHTML = `
+                <div class="budget-summary-info">
+
+                    <strong>
+                        ${service.name}${extraInfo}
+                    </strong>
+
+                    <small>
+                        ${service.category}
+                    </small>
+
+                </div>
+
+                <span class="budget-summary-price">
+                    ${priceText}
+                </span>
+            `;
+
+
+            summaryList.appendChild(
+                item
+            );
+
         });
 
     }
 
 
     // ==========================================
-    // CALCULA PREÇO
+    // CALCULA ORÇAMENTO
     // ==========================================
 
     function calculateBudget() {
 
-        const vehicleSize = vehicleSelect.value;
+        const vehicleSize =
+            vehicleSelect.value;
 
         const selectedServices = [
             ...servicesList.querySelectorAll(
@@ -173,9 +517,20 @@ export function createBudget() {
             )
         ];
 
-        if (!vehicleSize || selectedServices.length === 0) {
 
-            totalElement.textContent = "R$ 0,00";
+        updateSummary(
+            selectedServices,
+            vehicleSize
+        );
+
+
+        if (
+            !vehicleSize ||
+            selectedServices.length === 0
+        ) {
+
+            totalElement.textContent =
+                "R$ 0,00";
 
             messageElement.textContent =
                 "Selecione o veículo e pelo menos um serviço.";
@@ -183,59 +538,100 @@ export function createBudget() {
             whatsappButton.disabled = true;
 
             return 0;
+
         }
+
 
         let total = 0;
 
+        let hasCustomService = false;
+
+        let hasIncludedService = false;
+
+
         selectedServices.forEach(input => {
 
-            const service = services.find(
-                item => item.id === input.dataset.serviceId
-            );
+            const service =
+                services.find(
+                    item =>
+                        item.id ===
+                        input.dataset.serviceId
+                );
 
-            if (!service) return;
+            if (!service) {
+                return;
+            }
 
-            // Serviço baseado no tamanho do veículo
+
+            // SOB AVALIAÇÃO
+
             if (
-                service.type === "vehicle-size" &&
-                service.prices
+                service.type === "custom"
             ) {
 
-                total += service.prices[vehicleSize];
+                hasCustomService = true;
+
+                return;
 
             }
 
-            // Serviço com preço fixo
-            else if (
-                service.type === "fixed" &&
-                service.price
+
+            // INCLUSO
+
+            if (
+                service.type === "included"
             ) {
 
-                total += service.price;
+                hasIncludedService = true;
+
+                return;
 
             }
 
-            // Serviço com preço inicial
-            else if (
-                service.type === "range" &&
-                service.minPrice
-            ) {
 
-                total += service.minPrice;
-
-            }
+            total +=
+                getServicePrice(
+                    service,
+                    vehicleSize
+                );
 
         });
 
 
-        totalElement.textContent = formatCurrency(total);
+        totalElement.textContent =
+            formatCurrency(total);
 
-        messageElement.textContent =
-            "O valor final poderá variar conforme o estado e as características do veículo.";
+
+        // ======================================
+        // MENSAGEM DA ESTIMATIVA
+        // ======================================
+
+        if (hasCustomService) {
+
+            messageElement.textContent =
+                "Estimativa parcial. Um dos serviços selecionados necessita de avaliação para definição do valor.";
+
+        }
+
+        else if (hasIncludedService) {
+
+            messageElement.textContent =
+                "O serviço selecionado possui item incluso e não acrescenta valor ao orçamento.";
+
+        }
+
+        else {
+
+            messageElement.textContent =
+                "O valor final poderá variar conforme o estado e as características do veículo.";
+
+        }
+
 
         whatsappButton.disabled = false;
 
         return total;
+
     }
 
 
@@ -252,6 +648,24 @@ export function createBudget() {
     servicesList.addEventListener(
         "change",
         calculateBudget
+    );
+
+
+    servicesList.addEventListener(
+        "input",
+        event => {
+
+            if (
+                event.target.classList.contains(
+                    "service-quantity"
+                )
+            ) {
+
+                calculateBudget();
+
+            }
+
+        }
     );
 
 
@@ -272,57 +686,160 @@ export function createBudget() {
                 )
             ];
 
-            const total =
-                calculateBudget();
 
             if (
                 !vehicleSize ||
                 selectedServices.length === 0
             ) {
+
                 return;
+
             }
 
+
+            const total =
+                calculateBudget();
+
+
+            // ==================================
+            // NOMES DOS VEÍCULOS
+            // ==================================
+
             const vehicleNames = {
-                pequeno: "Pequeno",
-                medio: "Médio",
-                grande: "Grande / SUV / 7 lugares"
+
+                pequeno:
+                    "Pequeno",
+
+                medio:
+                    "Médio",
+
+                grande:
+                    "Grande / SUV / 7 lugares"
+
             };
 
-            const serviceNames =
-                selectedServices.map(input => {
 
-                    const service =
-                        services.find(
-                            item =>
-                                item.id ===
-                                input.dataset.serviceId
+            // ==================================
+            // SERVIÇOS PARA O WHATSAPP
+            // ==================================
+
+            const serviceNames =
+                selectedServices
+                    .map(input => {
+
+                        const service =
+                            services.find(
+                                item =>
+                                    item.id ===
+                                    input.dataset.serviceId
+                            );
+
+                        if (!service) {
+                            return "";
+                        }
+
+
+                        let serviceName =
+                            service.name;
+
+
+                        // QUANTIDADE
+
+                        if (
+                            service.type ===
+                            "quantity"
+                        ) {
+
+                            const quantity =
+                                getServiceQuantity(
+                                    service
+                                );
+
+                            serviceName +=
+                                ` × ${quantity}`;
+
+                        }
+
+
+                        // SOB AVALIAÇÃO
+
+                        if (
+                            service.type ===
+                            "custom"
+                        ) {
+
+                            return (
+                                `• ${serviceName}\n` +
+                                `  Valor: Sob avaliação`
+                            );
+
+                        }
+
+
+                        // INCLUSO
+
+                        if (
+                            service.type ===
+                            "included"
+                        ) {
+
+                            return (
+                                `• ${serviceName}\n` +
+                                `  Incluso`
+                            );
+
+                        }
+
+
+                        // PREÇO
+
+                        const price =
+                            getServicePrice(
+                                service,
+                                vehicleSize
+                            );
+
+
+                        return (
+                            `• ${serviceName}\n` +
+                            `  ${formatCurrency(price)}`
                         );
 
-                    return service
-                        ? `• ${service.name}`
-                        : "";
+                    })
+                    .filter(Boolean)
+                    .join("\n\n");
 
-                }).join("\n");
 
+            // ==================================
+            // MENSAGEM FINAL
+            // ==================================
 
             const message = `
-Olá! Gostaria de solicitar um orçamento.
+Olá! Gostaria de solicitar um orçamento na Clean Car.
 
 🚗 Veículo: ${vehicleNames[vehicleSize]}
 
-🔧 Serviços:
+🔧 Serviços selecionados:
+
 ${serviceNames}
 
-💰 Estimativa: ${formatCurrency(total)}
+────────────────
+
+💰 Total estimado: ${formatCurrency(total)}
 
 Gostaria de verificar a disponibilidade de um horário.
 
-*O valor final poderá variar conforme o estado e as características do veículo.*
+⚠️ O valor apresentado é uma estimativa e poderá variar conforme o estado e as características do veículo.
             `.trim();
 
 
+            // ==================================
+            // WHATSAPP CLEAN CAR
+            // ==================================
+
             const phone =
-                "5512999999999";
+                "5512996010419";
+
 
             const whatsappURL =
                 `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
@@ -338,4 +855,5 @@ Gostaria de verificar a disponibilidade de um horário.
 
 
     return section;
+
 }

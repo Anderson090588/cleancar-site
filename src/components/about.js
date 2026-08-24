@@ -1,116 +1,155 @@
+// ==========================================
+// CLEAN CAR - SOBRE
+// ==========================================
+
 export function About() {
 
     return `
+        <section class="about-section" id="sobre">
 
+            <div class="about-container">
 
-<section id="about" class="about">
+                <!-- IMAGEM -->
 
+                <div class="about-image">
 
-    <div class="container">
-
-
-        <div class="row align-items-center">
-
-
-            <div class="col-lg-6">
-
-
-                <span class="badge-clean">
-                    SOBRE A CLEAN CAR
-                </span>
-
-
-
-                <h2>
-                    Mais que uma lavagem,
-                    uma experiência premium.
-                </h2>
-
-
-
-                <p>
-                    Na Clean Car, cada veículo recebe um cuidado
-                    especial. Trabalhamos com técnicas de estética
-                    automotiva para preservar, valorizar e destacar
-                    a beleza do seu carro.
-                </p>
-
-
-
-                <p>
-                    Nosso compromisso é entregar acabamento impecável,
-                    atenção aos detalhes e uma experiência diferenciada
-                    para cada cliente.
-                </p>
-
-
-
-            </div>
-
-
-
-            <div class="col-lg-6">
-
-
-                <div class="about-box">
-
-
-                    <div class="about-item">
-
-                        <strong>
-                            100%
-                        </strong>
-
-                        <span>
-                            Dedicação ao acabamento
-                        </span>
-
-                    </div>
-
-
-
-                    <div class="about-item">
-
-                        <strong>
-                            Premium
-                        </strong>
-
-                        <span>
-                            Produtos especializados
-                        </span>
-
-                    </div>
-
-
-
-                    <div class="about-item">
-
-                        <strong>
-                            Detalhado
-                        </strong>
-
-                        <span>
-                            Cuidado em cada etapa
-                        </span>
-
-                    </div>
-
+                    <img
+                        src="../src/assets/images/hero/hero-lancer.jpg"
+                        alt="Clean Car - cuidado automotivo"
+                        loading="lazy"
+                    >
 
                 </div>
 
 
+                <!-- CONTEÚDO -->
+
+                <div class="about-content">
+
+                    <span class="about-label">
+                        SOBRE A CLEAN CAR
+                    </span>
+
+                    <h2>
+                        Cuidado em cada detalhe
+                    </h2>
+
+                    <p class="about-intro">
+                        Na Clean Car, cada veículo recebe atenção
+                        de acordo com suas necessidades.
+                        O objetivo é entregar um serviço cuidadoso,
+                        organizado e com atenção aos detalhes,
+                        desde uma limpeza de manutenção até
+                        serviços mais técnicos de estética automotiva.
+                    </p>
+
+
+                    <!-- DIFERENCIAIS -->
+
+                    <div class="about-benefits">
+
+
+                        <div class="about-benefit">
+
+                            <div class="about-benefit-icon">
+                                <i class="bi bi-person-check"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Atendimento personalizado
+                                </h3>
+
+                                <p>
+                                    Cada veículo é avaliado conforme
+                                    suas características, necessidades
+                                    e estado de conservação.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="about-benefit">
+
+                            <div class="about-benefit-icon">
+                                <i class="bi bi-stars"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Cuidado nos detalhes
+                                </h3>
+
+                                <p>
+                                    Atenção ao acabamento externo,
+                                    interior, pintura, vidros e
+                                    componentes que fazem diferença
+                                    no resultado final.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="about-benefit">
+
+                            <div class="about-benefit-icon">
+                                <i class="bi bi-tools"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Serviços especializados
+                                </h3>
+
+                                <p>
+                                    Limpeza, higienização, polimento,
+                                    proteção, motor, chassi, vidros
+                                    e outros cuidados automotivos.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOTÕES -->
+
+                    <div class="about-actions">
+
+                        <a
+                            href="#orcamento"
+                            class="about-button-primary"
+                        >
+                            Montar orçamento
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                        <a
+                            href="https://wa.me/5512996010419"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="about-button-secondary"
+                        >
+                            <i class="bi bi-whatsapp"></i>
+                            Falar com a Clean Car
+                        </a>
+
+                    </div>
+
+                </div>
+
             </div>
 
-
-        </div>
-
-
-    </div>
-
-
-</section>
-
-
-`;
+        </section>
+    `;
 
 }
