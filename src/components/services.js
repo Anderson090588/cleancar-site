@@ -43,7 +43,7 @@ export function Services() {
                         <div class="service-card-image">
 
                             <img
-                                src="../src/assets/images/services/limpezadetalhada.png"
+                                src="src/assets/images/services/limpezadetalhada.png"
                                 alt="Limpeza detalhada de veículo"
                                 loading="lazy"
                             >
@@ -83,7 +83,7 @@ export function Services() {
                         <div class="service-card-image">
 
                             <img
-                                src="../src/assets/images/services/higienizacao.png"
+                                src="src/assets/images/services/higienizacao.png"
                                 alt="Higienização interna de veículo"
                                 loading="lazy"
                             >
@@ -123,7 +123,7 @@ export function Services() {
                         <div class="service-card-image">
 
                             <img
-                                src="../src/assets/images/services/polimento.png"
+                                src="src/assets/images/services/polimento.png"
                                 alt="Polimento automotivo"
                                 loading="lazy"
                             >
@@ -163,7 +163,7 @@ export function Services() {
                         <div class="service-card-image">
 
                             <img
-                                src="../src/assets/images/services/protecao.png"
+                                src="src/assets/images/services/protecao.png"
                                 alt="Proteção e enceramento automotivo"
                                 loading="lazy"
                             >
@@ -203,7 +203,7 @@ export function Services() {
                         <div class="service-card-image">
 
                             <img
-                                src="../src/assets/images/services/motorechassi.png"
+                                src="src/assets/images/services/motorechassi.png"
                                 alt="Limpeza de motor e chassi"
                                 loading="lazy"
                             >
@@ -243,7 +243,7 @@ export function Services() {
                         <div class="service-card-image">
 
                             <img
-                                src="../src/assets/images/services/vidrosedetalhamento.png"
+                                src="src/assets/images/services/vidrosedetalhamento.png"
                                 alt="Tratamento de vidros e detalhamento automotivo"
                                 loading="lazy"
                             >
@@ -300,6 +300,7 @@ export function Services() {
                         class="services-cta-button"
                     >
                         Criar orçamento
+
                         <i class="bi bi-arrow-down"></i>
                     </a>
 

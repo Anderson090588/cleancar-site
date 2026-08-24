@@ -203,14 +203,37 @@ export function createBudget() {
             ${
                 service.type === "quantity"
                     ? `
-                        <input
-                            type="number"
-                            class="service-quantity"
-                            data-quantity-id="${service.id}"
-                            min="1"
-                            value="1"
-                            disabled
-                        >
+                        <div class="quantity-control">
+
+                            <button
+                                type="button"
+                                class="quantity-button quantity-minus"
+                                aria-label="Diminuir quantidade"
+                                disabled
+                            >
+                                −
+                            </button>
+
+                            <input
+                                type="number"
+                                class="service-quantity"
+                                data-quantity-id="${service.id}"
+                                min="1"
+                                value="1"
+                                readonly
+                                disabled
+                            >
+
+                            <button
+                                type="button"
+                                class="quantity-button quantity-plus"
+                                aria-label="Aumentar quantidade"
+                                disabled
+                            >
+                                +
+                            </button>
+
+                        </div>
                     `
                     : ""
             }
@@ -235,18 +258,125 @@ export function createBudget() {
                 ".service-quantity"
             );
 
-        if (quantityInput) {
+        const minusButton =
+            serviceItem.querySelector(
+                ".quantity-minus"
+            );
+
+        const plusButton =
+            serviceItem.querySelector(
+                ".quantity-plus"
+            );
+
+
+        if (
+            quantityInput &&
+            minusButton &&
+            plusButton
+        ) {
+
+            // ==================================
+            // ATIVA / DESATIVA QUANTIDADE
+            // ==================================
 
             checkbox.addEventListener(
                 "change",
                 () => {
 
+                    const isChecked =
+                        checkbox.checked;
+
                     quantityInput.disabled =
-                        !checkbox.checked;
+                        !isChecked;
+
+                    minusButton.disabled =
+                        !isChecked;
+
+                    plusButton.disabled =
+                        !isChecked;
+
+
+                    if (!isChecked) {
+
+                        quantityInput.value = 1;
+
+                    }
+
+                }
+            );
+
+
+            // ==================================
+            // DIMINUI QUANTIDADE
+            // ==================================
+
+            minusButton.addEventListener(
+                "click",
+                event => {
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
 
                     if (!checkbox.checked) {
-                        quantityInput.value = 1;
+
+                        return;
+
                     }
+
+
+                    let quantity =
+                        Number(
+                            quantityInput.value
+                        );
+
+
+                    if (quantity > 1) {
+
+                        quantity--;
+
+                        quantityInput.value =
+                            quantity;
+
+                        calculateBudget();
+
+                    }
+
+                }
+            );
+
+
+            // ==================================
+            // AUMENTA QUANTIDADE
+            // ==================================
+
+            plusButton.addEventListener(
+                "click",
+                event => {
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+
+                    if (!checkbox.checked) {
+
+                        return;
+
+                    }
+
+
+                    let quantity =
+                        Number(
+                            quantityInput.value
+                        );
+
+
+                    quantity++;
+
+                    quantityInput.value =
+                        quantity;
+
+                    calculateBudget();
 
                 }
             );
@@ -279,21 +409,33 @@ export function createBudget() {
 
     function getServiceQuantity(service) {
 
-        if (service.type !== "quantity") {
+        if (
+            service.type !== "quantity"
+        ) {
+
             return 1;
+
         }
+
 
         const quantityInput =
             servicesList.querySelector(
                 `[data-quantity-id="${service.id}"]`
             );
 
+
         if (!quantityInput) {
+
             return 1;
+
         }
 
+
         const quantity =
-            Number(quantityInput.value);
+            Number(
+                quantityInput.value
+            );
+
 
         return quantity > 0
             ? quantity
@@ -311,7 +453,9 @@ export function createBudget() {
         vehicleSize
     ) {
 
+        // ======================================
         // PREÇO POR TAMANHO
+        // ======================================
 
         if (
             service.type === "vehicle-size" &&
@@ -325,7 +469,9 @@ export function createBudget() {
         }
 
 
+        // ======================================
         // PREÇO FIXO
+        // ======================================
 
         if (
             service.type === "fixed" &&
@@ -337,7 +483,9 @@ export function createBudget() {
         }
 
 
+        // ======================================
         // FAIXA DE PREÇO
+        // ======================================
 
         if (
             service.type === "range" &&
@@ -349,7 +497,9 @@ export function createBudget() {
         }
 
 
+        // ======================================
         // PREÇO POR QUANTIDADE
+        // ======================================
 
         if (
             service.type === "quantity" &&
@@ -378,14 +528,18 @@ export function createBudget() {
         vehicleSize
     ) {
 
-        if (service.type === "custom") {
+        if (
+            service.type === "custom"
+        ) {
 
             return "Sob avaliação";
 
         }
 
 
-        if (service.type === "included") {
+        if (
+            service.type === "included"
+        ) {
 
             return "Incluso";
 
@@ -397,6 +551,7 @@ export function createBudget() {
                 service,
                 vehicleSize
             );
+
 
         return formatCurrency(price);
 
@@ -439,8 +594,11 @@ export function createBudget() {
                         input.dataset.serviceId
                 );
 
+
             if (!service) {
+
                 return;
+
             }
 
 
@@ -453,6 +611,10 @@ export function createBudget() {
 
             let extraInfo = "";
 
+
+            // ==================================
+            // QUANTIDADE
+            // ==================================
 
             if (
                 service.type === "quantity"
@@ -511,6 +673,7 @@ export function createBudget() {
         const vehicleSize =
             vehicleSelect.value;
 
+
         const selectedServices = [
             ...servicesList.querySelectorAll(
                 'input[type="checkbox"]:checked'
@@ -518,11 +681,19 @@ export function createBudget() {
         ];
 
 
+        // ======================================
+        // ATUALIZA RESUMO
+        // ======================================
+
         updateSummary(
             selectedServices,
             vehicleSize
         );
 
+
+        // ======================================
+        // VALIDAÇÃO
+        // ======================================
 
         if (
             !vehicleSize ||
@@ -535,7 +706,8 @@ export function createBudget() {
             messageElement.textContent =
                 "Selecione o veículo e pelo menos um serviço.";
 
-            whatsappButton.disabled = true;
+            whatsappButton.disabled =
+                true;
 
             return 0;
 
@@ -544,10 +716,16 @@ export function createBudget() {
 
         let total = 0;
 
-        let hasCustomService = false;
+        let hasCustomService =
+            false;
 
-        let hasIncludedService = false;
+        let hasIncludedService =
+            false;
 
+
+        // ======================================
+        // SOMA SERVIÇOS
+        // ======================================
 
         selectedServices.forEach(input => {
 
@@ -558,31 +736,40 @@ export function createBudget() {
                         input.dataset.serviceId
                 );
 
+
             if (!service) {
+
                 return;
+
             }
 
 
+            // ==================================
             // SOB AVALIAÇÃO
+            // ==================================
 
             if (
                 service.type === "custom"
             ) {
 
-                hasCustomService = true;
+                hasCustomService =
+                    true;
 
                 return;
 
             }
 
 
+            // ==================================
             // INCLUSO
+            // ==================================
 
             if (
                 service.type === "included"
             ) {
 
-                hasIncludedService = true;
+                hasIncludedService =
+                    true;
 
                 return;
 
@@ -598,6 +785,10 @@ export function createBudget() {
         });
 
 
+        // ======================================
+        // MOSTRA TOTAL
+        // ======================================
+
         totalElement.textContent =
             formatCurrency(total);
 
@@ -606,14 +797,18 @@ export function createBudget() {
         // MENSAGEM DA ESTIMATIVA
         // ======================================
 
-        if (hasCustomService) {
+        if (
+            hasCustomService
+        ) {
 
             messageElement.textContent =
                 "Estimativa parcial. Um dos serviços selecionados necessita de avaliação para definição do valor.";
 
         }
 
-        else if (hasIncludedService) {
+        else if (
+            hasIncludedService
+        ) {
 
             messageElement.textContent =
                 "O serviço selecionado possui item incluso e não acrescenta valor ao orçamento.";
@@ -628,7 +823,9 @@ export function createBudget() {
         }
 
 
-        whatsappButton.disabled = false;
+        whatsappButton.disabled =
+            false;
+
 
         return total;
 
@@ -651,24 +848,6 @@ export function createBudget() {
     );
 
 
-    servicesList.addEventListener(
-        "input",
-        event => {
-
-            if (
-                event.target.classList.contains(
-                    "service-quantity"
-                )
-            ) {
-
-                calculateBudget();
-
-            }
-
-        }
-    );
-
-
     // ==========================================
     // WHATSAPP
     // ==========================================
@@ -679,6 +858,7 @@ export function createBudget() {
 
             const vehicleSize =
                 vehicleSelect.value;
+
 
             const selectedServices = [
                 ...servicesList.querySelectorAll(
@@ -734,8 +914,11 @@ export function createBudget() {
                                     input.dataset.serviceId
                             );
 
+
                         if (!service) {
+
                             return "";
+
                         }
 
 
@@ -743,7 +926,9 @@ export function createBudget() {
                             service.name;
 
 
+                        // ==================================
                         // QUANTIDADE
+                        // ==================================
 
                         if (
                             service.type ===
@@ -761,7 +946,9 @@ export function createBudget() {
                         }
 
 
+                        // ==================================
                         // SOB AVALIAÇÃO
+                        // ==================================
 
                         if (
                             service.type ===
@@ -776,7 +963,9 @@ export function createBudget() {
                         }
 
 
+                        // ==================================
                         // INCLUSO
+                        // ==================================
 
                         if (
                             service.type ===
@@ -791,7 +980,9 @@ export function createBudget() {
                         }
 
 
+                        // ==================================
                         // PREÇO
+                        // ==================================
 
                         const price =
                             getServicePrice(

@@ -5,6 +5,10 @@ import { createBudget } from "../components/budget.js";
 import { Contact } from "../components/contact.js";
 
 
+// ==========================================
+// APP
+// ==========================================
+
 const app =
     document.querySelector("#app");
 
@@ -17,11 +21,35 @@ app.innerHTML = `
 
     <nav class="navbar">
 
-        <div class="logo">
+        <a
+            href="#inicio"
+            class="logo"
+        >
             CLEAN<span>CAR</span>
-        </div>
+        </a>
 
-        <ul class="nav-links">
+
+        <!-- BOTÃO MOBILE -->
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menu-toggle"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+        >
+
+            <i class="bi bi-list"></i>
+
+        </button>
+
+
+        <!-- NAVEGAÇÃO -->
+
+        <ul
+            class="nav-links"
+            id="nav-links"
+        >
 
             <li>
                 <a href="#inicio">
@@ -62,7 +90,10 @@ app.innerHTML = `
          HERO
     ======================================= -->
 
-    <section class="hero" id="inicio">
+    <section
+        class="hero"
+        id="inicio"
+    >
 
         <div class="hero-content">
 
@@ -137,6 +168,171 @@ const budgetContainer =
 
 budgetContainer.appendChild(
     createBudget()
+);
+
+
+// ==========================================
+// MENU MOBILE
+// ==========================================
+
+const menuToggle =
+    document.querySelector(
+        "#menu-toggle"
+    );
+
+const navLinks =
+    document.querySelector(
+        "#nav-links"
+    );
+
+
+if (
+    menuToggle &&
+    navLinks
+) {
+
+    // ======================================
+    // ABRE / FECHA MENU
+    // ======================================
+
+    menuToggle.addEventListener(
+        "click",
+        () => {
+
+            const isOpen =
+                navLinks.classList.toggle(
+                    "nav-open"
+                );
+
+
+            menuToggle.classList.toggle(
+                "menu-open",
+                isOpen
+            );
+
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen
+                    ? "true"
+                    : "false"
+            );
+
+
+            const icon =
+                menuToggle.querySelector(
+                    "i"
+                );
+
+
+            if (icon) {
+
+                icon.className =
+                    isOpen
+                        ? "bi bi-x-lg"
+                        : "bi bi-list";
+
+            }
+
+        }
+    );
+
+
+    // ======================================
+    // FECHA AO CLICAR EM UM LINK
+    // ======================================
+
+    navLinks
+        .querySelectorAll("a")
+        .forEach(link => {
+
+            link.addEventListener(
+                "click",
+                () => {
+
+                    navLinks.classList.remove(
+                        "nav-open"
+                    );
+
+
+                    menuToggle.classList.remove(
+                        "menu-open"
+                    );
+
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+
+                    const icon =
+                        menuToggle.querySelector(
+                            "i"
+                        );
+
+
+                    if (icon) {
+
+                        icon.className =
+                            "bi bi-list";
+
+                    }
+
+                }
+            );
+
+        });
+
+}
+
+
+// ==========================================
+// FECHA MENU AO AUMENTAR A TELA
+// ==========================================
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        if (
+            window.innerWidth > 768 &&
+            navLinks &&
+            menuToggle
+        ) {
+
+            navLinks.classList.remove(
+                "nav-open"
+            );
+
+
+            menuToggle.classList.remove(
+                "menu-open"
+            );
+
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+
+            const icon =
+                menuToggle.querySelector(
+                    "i"
+                );
+
+
+            if (icon) {
+
+                icon.className =
+                    "bi bi-list";
+
+            }
+
+        }
+
+    }
 );
 
 
