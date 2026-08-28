@@ -33,6 +33,24 @@ export function createBudget() {
 
             <div class="budget-content">
 
+                <!-- NOME DO CLIENTE -->
+
+                <div class="budget-group">
+
+                    <label for="customer-name">
+                        Seu nome
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customer-name"
+                        placeholder="Digite seu nome"
+                        autocomplete="name"
+                    >
+
+                </div>
+
+
                 <!-- TIPO DE VEÍCULO -->
 
                 <div class="budget-group">
@@ -144,6 +162,9 @@ export function createBudget() {
     // ==========================================
     // ELEMENTOS
     // ==========================================
+
+    const customerNameInput =
+        section.querySelector("#customer-name");
 
     const servicesList =
         section.querySelector("#services-list");
@@ -882,6 +903,19 @@ export function createBudget() {
 
 
             // ==================================
+            // NOME DO CLIENTE
+            // ==================================
+
+            const customerName =
+                customerNameInput.value.trim();
+
+            const customerLine =
+                customerName
+                    ? `👤 Cliente: ${customerName}\n`
+                    : "";
+
+
+            // ==================================
             // NOMES DOS VEÍCULOS
             // ==================================
 
@@ -1008,7 +1042,7 @@ export function createBudget() {
             const message = `
 Olá! Gostaria de solicitar um orçamento na Clean Car.
 
-🚗 Veículo: ${vehicleNames[vehicleSize]}
+${customerLine}🚗 Veículo: ${vehicleNames[vehicleSize]}
 
 🔧 Serviços selecionados:
 

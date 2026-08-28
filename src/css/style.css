@@ -3799,3 +3799,41 @@ html {
     }
 
 }
+/* ======================================
+   CAMPO NOME - ORÇAMENTO
+====================================== */
+
+#customer-name {
+    width: 100%;
+    padding: 14px 16px;
+
+    background: #181818;
+    color: #ffffff;
+
+    border: 1px solid #333333;
+    border-radius: 8px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+}
+
+#customer-name::placeholder {
+    color: #777777;
+}
+
+#customer-name:hover {
+    border-color: #555555;
+}
+
+#customer-name:focus {
+    background: #1d1d1d;
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+}
