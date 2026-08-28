@@ -186,7 +186,7 @@ export function createBudget() {
             <span class="service-info">
 
                 <strong>
-                    ${service.name}
+                    ${service.name}${service.type === "custom" ? " — Sob avaliação" : ""}
                 </strong>
 
                 <small>
