@@ -51,6 +51,23 @@ export function createBudget() {
                 </div>
 
 
+                <!-- MODELO DO VEÍCULO -->
+
+                <div class="budget-group">
+
+                    <label for="vehicle-model">
+                        Modelo do veículo
+                    </label>
+
+                    <input
+                        type="text"
+                        id="vehicle-model"
+                        placeholder="Ex.: Honda Civic, Corolla, Onix..."
+                    >
+
+                </div>
+
+
                 <!-- TIPO DE VEÍCULO -->
 
                 <div class="budget-group">
@@ -165,6 +182,9 @@ export function createBudget() {
 
     const customerNameInput =
         section.querySelector("#customer-name");
+
+    const vehicleModelInput =
+        section.querySelector("#vehicle-model");
 
     const servicesList =
         section.querySelector("#services-list");
@@ -916,7 +936,20 @@ export function createBudget() {
 
 
             // ==================================
-            // NOMES DOS VEÍCULOS
+            // MODELO DO VEÍCULO
+            // ==================================
+
+            const vehicleModel =
+                vehicleModelInput.value.trim();
+
+            const vehicleModelLine =
+                vehicleModel
+                    ? `🚗 Veículo: ${vehicleModel}\n`
+                    : "";
+
+
+            // ==================================
+            // NOMES DOS TAMANHOS
             // ==================================
 
             const vehicleNames = {
@@ -1042,7 +1075,7 @@ export function createBudget() {
             const message = `
 Olá! Gostaria de solicitar um orçamento na Clean Car.
 
-${customerLine}🚗 Veículo: ${vehicleNames[vehicleSize]}
+${customerLine}${vehicleModelLine}📐 Tamanho: ${vehicleNames[vehicleSize]}
 
 🔧 Serviços selecionados:
 
