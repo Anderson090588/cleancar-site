@@ -1,5 +1,6 @@
 import services from "../data/services.js";
 
+
 // ==========================================
 // CLEAN CAR - ORÇAMENTO
 // ==========================================
@@ -10,6 +11,11 @@ export function createBudget() {
 
     section.className = "budget-section";
     section.id = "orcamento";
+
+
+    // ==========================================
+    // ESTRUTURA PRINCIPAL
+    // ==========================================
 
     section.innerHTML = `
         <div class="budget-container">
@@ -30,6 +36,7 @@ export function createBudget() {
                 </p>
 
             </div>
+
 
             <div class="budget-content">
 
@@ -206,225 +213,596 @@ export function createBudget() {
 
 
     // ==========================================
-    // CRIA LISTA DE SERVIÇOS
+    // CONFIGURAÇÃO DAS CATEGORIAS
     // ==========================================
 
-    services.forEach(service => {
+    const categoryIcons = {
 
-        const serviceItem =
-            document.createElement("label");
+        "Limpeza": "bi-droplet",
 
-        serviceItem.className =
-            "service-option";
+        "Higienização": "bi-stars",
 
-        serviceItem.innerHTML = `
-            <input
-                type="checkbox"
-                value="${service.id}"
-                data-service-id="${service.id}"
-            >
+        "Polimento": "bi-brightness-high",
 
-            <span class="service-info">
+        "Proteção": "bi-shield-check",
 
-                <strong>
-                    ${service.name}${service.type === "custom" ? " — Sob avaliação" : ""}
-                </strong>
+        "Pintura": "bi-palette",
 
-                <small>
-                    ${service.category}
-                    ${
-                        service.duration
-                            ? ` • ${service.duration}`
-                            : ""
-                    }
-                </small>
+        "Vidros": "bi-window",
 
-            </span>
+        "Motor": "bi-gear",
 
-            ${
-                service.type === "quantity"
-                    ? `
-                        <div class="quantity-control">
+        "Chassi": "bi-car-front",
 
-                            <button
-                                type="button"
-                                class="quantity-button quantity-minus"
-                                aria-label="Diminuir quantidade"
-                                disabled
-                            >
-                                −
-                            </button>
+        "Plásticos": "bi-gem"
 
-                            <input
-                                type="number"
-                                class="service-quantity"
-                                data-quantity-id="${service.id}"
-                                min="1"
-                                value="1"
-                                readonly
-                                disabled
-                            >
+    };
 
-                            <button
-                                type="button"
-                                class="quantity-button quantity-plus"
-                                aria-label="Aumentar quantidade"
-                                disabled
-                            >
-                                +
-                            </button>
 
-                        </div>
-                    `
-                    : ""
-            }
-        `;
+    const categoryOrder = [
 
-        servicesList.appendChild(
-            serviceItem
+        "Limpeza",
+
+        "Higienização",
+
+        "Polimento",
+
+        "Proteção",
+
+        "Pintura",
+
+        "Vidros",
+
+        "Motor",
+
+        "Chassi",
+
+        "Plásticos"
+
+    ];
+
+
+    // ==========================================
+    // AGRUPA OS SERVIÇOS
+    // ==========================================
+
+    const groupedServices =
+        services.reduce(
+            (groups, service) => {
+
+                if (!groups[service.category]) {
+
+                    groups[service.category] = [];
+
+                }
+
+                groups[service.category].push(
+                    service
+                );
+
+                return groups;
+
+            },
+            {}
         );
 
 
-        // ======================================
-        // CONTROLE DA QUANTIDADE
-        // ======================================
+    // ==========================================
+    // CRIA CATEGORIAS
+    // ==========================================
 
-        const checkbox =
-            serviceItem.querySelector(
-                'input[type="checkbox"]'
-            );
+    categoryOrder.forEach(category => {
 
-        const quantityInput =
-            serviceItem.querySelector(
-                ".service-quantity"
-            );
-
-        const minusButton =
-            serviceItem.querySelector(
-                ".quantity-minus"
-            );
-
-        const plusButton =
-            serviceItem.querySelector(
-                ".quantity-plus"
-            );
+        const categoryServices =
+            groupedServices[category];
 
 
         if (
-            quantityInput &&
-            minusButton &&
-            plusButton
+            !categoryServices ||
+            categoryServices.length === 0
         ) {
 
-            // ==================================
-            // ATIVA / DESATIVA QUANTIDADE
-            // ==================================
+            return;
 
-            checkbox.addEventListener(
-                "change",
-                () => {
-
-                    const isChecked =
-                        checkbox.checked;
-
-                    quantityInput.disabled =
-                        !isChecked;
-
-                    minusButton.disabled =
-                        !isChecked;
-
-                    plusButton.disabled =
-                        !isChecked;
+        }
 
 
-                    if (!isChecked) {
+        // ======================================
+        // CONTAINER
+        // ======================================
 
-                        quantityInput.value = 1;
+        const categoryElement =
+            document.createElement("div");
 
-                    }
+        categoryElement.className =
+            "service-category";
 
+        categoryElement.dataset.category =
+            category;
+
+
+        // ======================================
+        // CABEÇALHO
+        // ======================================
+
+        const categoryHeader =
+            document.createElement("button");
+
+        categoryHeader.type = "button";
+
+        categoryHeader.className =
+            "service-category-header";
+
+        categoryHeader.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+
+        categoryHeader.innerHTML = `
+
+            <span class="service-category-title">
+
+                <span class="service-category-icon">
+
+                    <i
+                        class="bi ${
+                            categoryIcons[category] ||
+                            "bi-grid"
+                        }"
+                    ></i>
+
+                </span>
+
+                <span>
+                    ${category}
+                </span>
+
+            </span>
+
+
+            <span class="service-category-actions">
+
+                <span
+                    class="service-category-count"
+                    data-category-count="${category}"
+                    hidden
+                >
+                    0
+                </span>
+
+                <i
+                    class="
+                        bi
+                        bi-chevron-down
+                        service-category-arrow
+                    "
+                ></i>
+
+            </span>
+
+        `;
+
+
+        // ======================================
+        // CONTEÚDO DA CATEGORIA
+        // ======================================
+
+        const categoryContent =
+            document.createElement("div");
+
+        categoryContent.className =
+            "service-category-content";
+
+
+        const categoryList =
+            document.createElement("div");
+
+        categoryList.className =
+            "service-category-list";
+
+
+        // ======================================
+        // CRIA SERVIÇOS
+        // ======================================
+
+        categoryServices.forEach(service => {
+
+            const serviceItem =
+                document.createElement("label");
+
+            serviceItem.className =
+                "service-option";
+
+
+            serviceItem.innerHTML = `
+
+                <input
+                    type="checkbox"
+                    value="${service.id}"
+                    data-service-id="${service.id}"
+                    data-service-category="${service.category}"
+                >
+
+
+                <span class="service-info">
+
+                    <strong>
+
+                        ${service.name}${
+                            service.type === "custom"
+                                ? " — Sob avaliação"
+                                : ""
+                        }
+
+                    </strong>
+
+
+                    <small>
+
+                        ${
+                            service.duration
+                                ? service.duration
+                                : service.type ===
+                                  "included"
+                                    ? "Incluso"
+                                    : ""
+                        }
+
+                    </small>
+
+                </span>
+
+
+                ${
+                    service.type === "quantity"
+
+                        ? `
+
+                            <div class="quantity-control">
+
+                                <button
+                                    type="button"
+                                    class="
+                                        quantity-button
+                                        quantity-minus
+                                    "
+                                    aria-label="
+                                        Diminuir quantidade
+                                    "
+                                    disabled
+                                >
+                                    −
+                                </button>
+
+
+                                <input
+                                    type="number"
+                                    class="service-quantity"
+                                    data-quantity-id="${service.id}"
+                                    min="1"
+                                    value="1"
+                                    readonly
+                                    disabled
+                                >
+
+
+                                <button
+                                    type="button"
+                                    class="
+                                        quantity-button
+                                        quantity-plus
+                                    "
+                                    aria-label="
+                                        Aumentar quantidade
+                                    "
+                                    disabled
+                                >
+                                    +
+                                </button>
+
+                            </div>
+
+                        `
+
+                        : ""
                 }
+
+            `;
+
+
+            categoryList.appendChild(
+                serviceItem
             );
 
 
             // ==================================
-            // DIMINUI QUANTIDADE
+            // ELEMENTOS DO SERVIÇO
             // ==================================
 
-            minusButton.addEventListener(
-                "click",
-                event => {
-
-                    event.preventDefault();
-                    event.stopPropagation();
+            const checkbox =
+                serviceItem.querySelector(
+                    'input[type="checkbox"]'
+                );
 
 
-                    if (!checkbox.checked) {
+            const quantityInput =
+                serviceItem.querySelector(
+                    ".service-quantity"
+                );
 
-                        return;
+
+            const minusButton =
+                serviceItem.querySelector(
+                    ".quantity-minus"
+                );
+
+
+            const plusButton =
+                serviceItem.querySelector(
+                    ".quantity-plus"
+                );
+
+
+            // ==================================
+            // SERVIÇOS COM QUANTIDADE
+            // ==================================
+
+            if (
+                quantityInput &&
+                minusButton &&
+                plusButton
+            ) {
+
+
+                // ==============================
+                // ATIVA / DESATIVA
+                // ==============================
+
+                checkbox.addEventListener(
+                    "change",
+                    () => {
+
+                        const isChecked =
+                            checkbox.checked;
+
+
+                        quantityInput.disabled =
+                            !isChecked;
+
+                        minusButton.disabled =
+                            !isChecked;
+
+                        plusButton.disabled =
+                            !isChecked;
+
+
+                        if (!isChecked) {
+
+                            quantityInput.value = 1;
+
+                        }
 
                     }
+                );
 
 
-                    let quantity =
-                        Number(
-                            quantityInput.value
-                        );
+                // ==============================
+                // DIMINUI QUANTIDADE
+                // ==============================
+
+                minusButton.addEventListener(
+                    "click",
+                    event => {
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
 
 
-                    if (quantity > 1) {
+                        if (!checkbox.checked) {
 
-                        quantity--;
+                            return;
+
+                        }
+
+
+                        let quantity =
+                            Number(
+                                quantityInput.value
+                            );
+
+
+                        if (quantity > 1) {
+
+                            quantity--;
+
+                            quantityInput.value =
+                                quantity;
+
+                            calculateBudget();
+
+                        }
+
+                    }
+                );
+
+
+                // ==============================
+                // AUMENTA QUANTIDADE
+                // ==============================
+
+                plusButton.addEventListener(
+                    "click",
+                    event => {
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+
+                        if (!checkbox.checked) {
+
+                            return;
+
+                        }
+
+
+                        let quantity =
+                            Number(
+                                quantityInput.value
+                            );
+
+
+                        quantity++;
+
 
                         quantityInput.value =
                             quantity;
 
+
                         calculateBudget();
 
                     }
+                );
 
-                }
-            );
+            }
 
-
-            // ==================================
-            // AUMENTA QUANTIDADE
-            // ==================================
-
-            plusButton.addEventListener(
-                "click",
-                event => {
-
-                    event.preventDefault();
-                    event.stopPropagation();
+        });
 
 
-                    if (!checkbox.checked) {
+        // ======================================
+        // MONTA CATEGORIA
+        // ======================================
 
-                        return;
+        categoryContent.appendChild(
+            categoryList
+        );
 
-                    }
+
+        categoryElement.appendChild(
+            categoryHeader
+        );
 
 
-                    let quantity =
-                        Number(
-                            quantityInput.value
+        categoryElement.appendChild(
+            categoryContent
+        );
+
+
+        servicesList.appendChild(
+            categoryElement
+        );
+
+
+        // ======================================
+        // ABRE / FECHA CATEGORIA
+        // ======================================
+
+        categoryHeader.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    categoryElement.classList.contains(
+                        "active"
+                    );
+
+
+                // ==============================
+                // FECHA AS OUTRAS
+                // ==============================
+
+                servicesList
+                    .querySelectorAll(
+                        ".service-category.active"
+                    )
+                    .forEach(item => {
+
+                        item.classList.remove(
+                            "active"
                         );
 
 
-                    quantity++;
+                        const header =
+                            item.querySelector(
+                                ".service-category-header"
+                            );
 
-                    quantityInput.value =
-                        quantity;
 
-                    calculateBudget();
+                        if (header) {
+
+                            header.setAttribute(
+                                "aria-expanded",
+                                "false"
+                            );
+
+                        }
+
+                    });
+
+
+                // ==============================
+                // ABRE A CATEGORIA CLICADA
+                // ==============================
+
+                if (!isOpen) {
+
+                    categoryElement.classList.add(
+                        "active"
+                    );
+
+
+                    categoryHeader.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
 
                 }
-            );
 
-        }
+            }
+        );
 
     });
+
+
+    // ==========================================
+    // ATUALIZA CONTADORES
+    // ==========================================
+
+    function updateCategoryCounters() {
+
+        categoryOrder.forEach(category => {
+
+            const counter =
+                servicesList.querySelector(
+                    `[data-category-count="${category}"]`
+                );
+
+
+            if (!counter) {
+
+                return;
+
+            }
+
+
+            const selectedCount =
+                servicesList.querySelectorAll(
+                    `input[data-service-category="${category}"]:checked`
+                ).length;
+
+
+            counter.textContent =
+                selectedCount;
+
+
+            counter.hidden =
+                selectedCount === 0;
+
+        });
+
+    }
 
 
     // ==========================================
@@ -494,6 +872,7 @@ export function createBudget() {
         vehicleSize
     ) {
 
+
         // ======================================
         // PREÇO POR TAMANHO
         // ======================================
@@ -549,6 +928,7 @@ export function createBudget() {
 
             const quantity =
                 getServiceQuantity(service);
+
 
             return service.price * quantity;
 
@@ -616,10 +996,13 @@ export function createBudget() {
         ) {
 
             summaryList.innerHTML = `
+
                 <p class="budget-empty">
                     Nenhum serviço selecionado.
                 </p>
+
             `;
+
 
             return;
 
@@ -646,6 +1029,7 @@ export function createBudget() {
             const item =
                 document.createElement("div");
 
+
             item.className =
                 "budget-summary-item";
 
@@ -662,7 +1046,10 @@ export function createBudget() {
             ) {
 
                 const quantity =
-                    getServiceQuantity(service);
+                    getServiceQuantity(
+                        service
+                    );
+
 
                 extraInfo =
                     ` × ${quantity}`;
@@ -678,6 +1065,7 @@ export function createBudget() {
 
 
             item.innerHTML = `
+
                 <div class="budget-summary-info">
 
                     <strong>
@@ -690,9 +1078,11 @@ export function createBudget() {
 
                 </div>
 
+
                 <span class="budget-summary-price">
                     ${priceText}
                 </span>
+
             `;
 
 
@@ -711,14 +1101,24 @@ export function createBudget() {
 
     function calculateBudget() {
 
+
+        // ======================================
+        // ATUALIZA CONTADORES
+        // ======================================
+
+        updateCategoryCounters();
+
+
         const vehicleSize =
             vehicleSelect.value;
 
 
         const selectedServices = [
+
             ...servicesList.querySelectorAll(
                 'input[type="checkbox"]:checked'
             )
+
         ];
 
 
@@ -744,11 +1144,14 @@ export function createBudget() {
             totalElement.textContent =
                 "R$ 0,00";
 
+
             messageElement.textContent =
                 "Selecione o veículo e pelo menos um serviço.";
 
+
             whatsappButton.disabled =
                 true;
+
 
             return 0;
 
@@ -757,8 +1160,10 @@ export function createBudget() {
 
         let total = 0;
 
+
         let hasCustomService =
             false;
+
 
         let hasIncludedService =
             false;
@@ -796,6 +1201,7 @@ export function createBudget() {
                 hasCustomService =
                     true;
 
+
                 return;
 
             }
@@ -811,6 +1217,7 @@ export function createBudget() {
 
                 hasIncludedService =
                     true;
+
 
                 return;
 
@@ -902,9 +1309,11 @@ export function createBudget() {
 
 
             const selectedServices = [
+
                 ...servicesList.querySelectorAll(
                     'input[type="checkbox"]:checked'
                 )
+
             ];
 
 
@@ -929,9 +1338,12 @@ export function createBudget() {
             const customerName =
                 customerNameInput.value.trim();
 
+
             const customerLine =
                 customerName
+
                     ? `👤 Cliente: ${customerName}\n`
+
                     : "";
 
 
@@ -942,9 +1354,12 @@ export function createBudget() {
             const vehicleModel =
                 vehicleModelInput.value.trim();
 
+
             const vehicleModelLine =
                 vehicleModel
+
                     ? `🚗 Veículo: ${vehicleModel}\n`
+
                     : "";
 
 
@@ -972,6 +1387,7 @@ export function createBudget() {
 
             const serviceNames =
                 selectedServices
+
                     .map(input => {
 
                         const service =
@@ -993,9 +1409,9 @@ export function createBudget() {
                             service.name;
 
 
-                        // ==================================
+                        // ======================
                         // QUANTIDADE
-                        // ==================================
+                        // ======================
 
                         if (
                             service.type ===
@@ -1007,15 +1423,16 @@ export function createBudget() {
                                     service
                                 );
 
+
                             serviceName +=
                                 ` × ${quantity}`;
 
                         }
 
 
-                        // ==================================
+                        // ======================
                         // SOB AVALIAÇÃO
-                        // ==================================
+                        // ======================
 
                         if (
                             service.type ===
@@ -1030,9 +1447,9 @@ export function createBudget() {
                         }
 
 
-                        // ==================================
+                        // ======================
                         // INCLUSO
-                        // ==================================
+                        // ======================
 
                         if (
                             service.type ===
@@ -1047,9 +1464,9 @@ export function createBudget() {
                         }
 
 
-                        // ==================================
+                        // ======================
                         // PREÇO
-                        // ==================================
+                        // ======================
 
                         const price =
                             getServicePrice(
@@ -1064,7 +1481,9 @@ export function createBudget() {
                         );
 
                     })
+
                     .filter(Boolean)
+
                     .join("\n\n");
 
 
@@ -1073,6 +1492,7 @@ export function createBudget() {
             // ==================================
 
             const message = `
+
 Olá! Gostaria de solicitar um orçamento na Clean Car.
 
 ${customerLine}${vehicleModelLine}📐 Tamanho: ${vehicleNames[vehicleSize]}
@@ -1088,6 +1508,7 @@ ${serviceNames}
 Gostaria de verificar a disponibilidade de um horário.
 
 ⚠️ O valor apresentado é uma estimativa e poderá variar conforme o estado e as características do veículo.
+
             `.trim();
 
 
@@ -1110,6 +1531,13 @@ Gostaria de verificar a disponibilidade de um horário.
 
         }
     );
+
+
+    // ==========================================
+    // ESTADO INICIAL
+    // ==========================================
+
+    updateCategoryCounters();
 
 
     return section;

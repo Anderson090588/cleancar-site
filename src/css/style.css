@@ -3858,3 +3858,729 @@ html {
         box-shadow 0.3s ease,
         background 0.3s ease;
 }
+/* ==========================================
+   CLEAN CAR - CATEGORIAS DO ORÇAMENTO
+   ========================================== */
+
+
+/* ==========================================
+   LISTA PRINCIPAL
+   ========================================== */
+
+#orcamento .services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* ==========================================
+   CATEGORIA
+   ========================================== */
+
+.service-category {
+    width: 100%;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.035),
+            rgba(255, 255, 255, 0.015)
+        );
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* Categoria aberta */
+
+.service-category.active {
+    border-color:
+        rgba(245, 196, 0, 0.35);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(245, 196, 0, 0.035),
+            rgba(255, 255, 255, 0.02)
+        );
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+
+/* ==========================================
+   CABEÇALHO DA CATEGORIA
+   ========================================== */
+
+.service-category-header {
+    width: 100%;
+
+    min-height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 15px 18px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-family: 'Poppins', sans-serif;
+
+    transition:
+        background 0.25s ease;
+}
+
+
+.service-category-header:hover {
+    background:
+        rgba(255, 255, 255, 0.035);
+}
+
+
+/* ==========================================
+   LADO ESQUERDO
+   ========================================== */
+
+.service-category-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    min-width: 0;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #ffffff;
+}
+
+
+/* ==========================================
+   ÍCONE
+   ========================================== */
+
+.service-category-icon {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.06);
+
+    color: #f5c400;
+
+    font-size: 18px;
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+.service-category.active
+.service-category-icon {
+
+    background:
+        rgba(245, 196, 0, 0.10);
+
+    border-color:
+        rgba(245, 196, 0, 0.18);
+}
+
+
+/* ==========================================
+   LADO DIREITO
+   ========================================== */
+
+.service-category-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   CONTADOR
+   ========================================== */
+
+.service-category-count {
+    min-width: 26px;
+
+    height: 26px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 8px;
+
+    border-radius: 20px;
+
+    background: #f5c400;
+
+    color: #111111;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.service-category-count[hidden] {
+    display: none;
+}
+
+
+/* ==========================================
+   SETA
+   ========================================== */
+
+.service-category-arrow {
+    color:
+        rgba(255, 255, 255, 0.55);
+
+    font-size: 15px;
+
+    transition:
+        transform 0.3s ease,
+        color 0.3s ease;
+}
+
+
+.service-category.active
+.service-category-arrow {
+
+    transform: rotate(180deg);
+
+    color: #f5c400;
+}
+
+
+/* ==========================================
+   CONTEÚDO FECHADO
+   ========================================== */
+
+.service-category-content {
+    display: grid;
+
+    grid-template-rows: 0fr;
+
+    opacity: 0;
+
+    transition:
+        grid-template-rows 0.35s ease,
+        opacity 0.25s ease;
+}
+
+
+/* ==========================================
+   CONTEÚDO ABERTO
+   ========================================== */
+
+.service-category.active
+.service-category-content {
+
+    grid-template-rows: 1fr;
+
+    opacity: 1;
+}
+
+
+/* Necessário para animação */
+
+.service-category-list {
+    min-height: 0;
+
+    overflow: hidden;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+/* Espaçamento somente quando aberto */
+
+.service-category.active
+.service-category-list {
+
+    padding:
+        5px 15px 15px;
+}
+
+
+/* ==========================================
+   SERVIÇO DENTRO DA CATEGORIA
+   ========================================== */
+
+.service-category
+.service-option {
+
+    min-height: 76px;
+
+    margin: 0;
+
+    background:
+        rgba(0, 0, 0, 0.18);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.service-category
+.service-option:hover {
+
+    transform:
+        translateY(-2px);
+
+    border-color:
+        rgba(245, 196, 0, 0.28);
+
+    background:
+        rgba(255, 255, 255, 0.035);
+}
+
+
+/* ==========================================
+   SERVIÇO SELECIONADO
+   ========================================== */
+
+.service-category
+.service-option:has(
+    input[type="checkbox"]:checked
+) {
+
+    border-color:
+        rgba(245, 196, 0, 0.55);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(245, 196, 0, 0.08),
+            rgba(255, 255, 255, 0.025)
+        );
+}
+
+
+/* ==========================================
+   TEXTO DOS SERVIÇOS
+   ========================================== */
+
+.service-category
+.service-info {
+
+    min-width: 0;
+}
+
+
+.service-category
+.service-info strong {
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    line-height: 1.45;
+}
+
+
+.service-category
+.service-info small {
+
+    color:
+        rgba(255, 255, 255, 0.45);
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+/* ==========================================
+   QUANTIDADE
+   ========================================== */
+
+.service-category
+.quantity-control {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 6px;
+
+    flex-shrink: 0;
+}
+
+
+.service-category
+.quantity-button {
+
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 8px;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.service-category
+.quantity-button:hover:not(:disabled) {
+
+    background:
+        rgba(245, 196, 0, 0.10);
+
+    border-color:
+        rgba(245, 196, 0, 0.35);
+}
+
+
+.service-category
+.quantity-button:active:not(:disabled) {
+
+    transform: scale(0.94);
+}
+
+
+.service-category
+.quantity-button:disabled {
+
+    opacity: 0.25;
+
+    cursor: default;
+}
+
+
+.service-category
+.service-quantity {
+
+    width: 42px;
+
+    min-width: 42px;
+
+    height: 34px;
+
+    padding: 0;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 8px;
+
+    background: #0d0d0d;
+
+    color: #ffffff;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   TABLET
+   ========================================== */
+
+@media (max-width: 850px) {
+
+    .service-category-list {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+/* ==========================================
+   CELULAR
+   ========================================== */
+
+@media (max-width: 650px) {
+
+
+    /* Categoria */
+
+    .service-category {
+
+        border-radius: 14px;
+
+    }
+
+
+    /* Cabeçalho */
+
+    .service-category-header {
+
+        min-height: 64px;
+
+        padding: 11px 13px;
+
+        gap: 10px;
+
+    }
+
+
+    /* Ícone */
+
+    .service-category-icon {
+
+        width: 38px;
+
+        height: 38px;
+
+        border-radius: 10px;
+
+        font-size: 16px;
+
+    }
+
+
+    /* Nome */
+
+    .service-category-title {
+
+        gap: 11px;
+
+        font-size: 13px;
+
+    }
+
+
+    /* Ações */
+
+    .service-category-actions {
+
+        gap: 8px;
+
+    }
+
+
+    /* Contador */
+
+    .service-category-count {
+
+        min-width: 23px;
+
+        height: 23px;
+
+        padding: 0 6px;
+
+        font-size: 10px;
+
+    }
+
+
+    /* Lista interna */
+
+    .service-category-list {
+
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+
+    }
+
+
+    .service-category.active
+    .service-category-list {
+
+        padding:
+            3px 10px 10px;
+
+    }
+
+
+    /* Card do serviço */
+
+    .service-category
+    .service-option {
+
+        min-height: auto;
+
+        padding: 13px;
+
+        border-radius: 11px;
+
+    }
+
+
+    /* Texto */
+
+    .service-category
+    .service-info strong {
+
+        font-size: 12px;
+
+        line-height: 1.4;
+
+    }
+
+
+    .service-category
+    .service-info small {
+
+        font-size: 10px;
+
+    }
+
+
+    /* Quantidade */
+
+    .service-category
+    .quantity-control {
+
+        grid-column: 1 / -1;
+
+        width: 100%;
+
+        justify-content: flex-end;
+
+        margin-top: 8px;
+
+    }
+
+
+    .service-category
+    .quantity-button {
+
+        width: 42px;
+
+        height: 40px;
+
+        font-size: 20px;
+
+    }
+
+
+    .service-category
+    .service-quantity {
+
+        width: 52px !important;
+
+        min-width: 52px;
+
+        height: 40px;
+
+        margin: 0;
+
+    }
+
+}/* ==========================================
+   CLEAN CAR - REMOVE SETAS NATIVAS
+   DO CAMPO DE QUANTIDADE
+   ========================================== */
+
+
+/* Chrome, Edge, Safari e navegadores Chromium */
+
+.service-quantity::-webkit-outer-spin-button,
+.service-quantity::-webkit-inner-spin-button {
+
+    -webkit-appearance: none;
+
+    margin: 0;
+
+}
+
+
+/* Firefox */
+
+.service-quantity {
+
+    -moz-appearance: textfield;
+
+    appearance: textfield;
+
+}
