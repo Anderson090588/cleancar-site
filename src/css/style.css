@@ -4584,3 +4584,104 @@ html {
     appearance: textfield;
 
 }
+
+/* ==========================================
+   CLEAN CAR - BOTÕES DE AGENDAMENTO
+   ========================================== */
+
+/* Garante que botões ocultos não sejam exibidos */
+.budget-whatsapp[hidden],
+.budget-booking[hidden],
+.budget-schedule[hidden] {
+    display: none !important;
+}
+
+/* Espaçamento entre os botões do orçamento */
+#budget-booking {
+    margin-bottom: 12px;
+}
+
+/* ==========================================
+   CLEAN CAR - BOTÃO GOOGLE AGENDA
+   ========================================== */
+
+#budget-booking {
+    background: #198754;
+    color: #ffffff;
+    border: 2px solid #198754;
+    border-radius: 10px;
+    padding: 16px 20px;
+    width: 100%;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.3s ease,
+                transform 0.3s ease;
+}
+
+#budget-booking:hover:not(:disabled) {
+    background: #146c43;
+    border-color: #146c43;
+    transform: translateY(-2px);
+}
+
+#budget-booking:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#budget-booking[hidden] {
+    display: none !important;
+}
+
+/* ==========================================
+   CLEAN CAR - ESTADO DE CONSERVAÇÃO
+   ========================================== */
+
+/* Caixa da barra de nível de sujeira */
+#vehicle-condition-group > div {
+    background: #1c1c1c !important;
+    border: 1px solid #3a3a3a !important;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+/* Textos da caixa */
+#vehicle-condition-group > div span,
+#vehicle-condition-group > div p {
+    color: #cccccc !important;
+}
+
+/* Nível selecionado */
+#vehicle-condition-label {
+    color: #f5bd28 !important;
+    font-weight: 700;
+}
+
+/* Barra deslizante */
+#vehicle-condition {
+    accent-color: #f5bd28 !important;
+    cursor: pointer;
+}
+
+/* ==========================================
+   CLEAN CAR - AVISO DE VISTORIA
+   ========================================== */
+
+#budget-inspection-notice {
+    background: #1c1c1c !important;
+    border-left: 4px solid #f5bd28 !important;
+    border-radius: 10px;
+    color: #eeeeee !important;
+    padding: 18px;
+}
+
+#budget-inspection-notice strong {
+    color: #f5bd28 !important;
+}
+
+#budget-inspection-notice p {
+    color: #cccccc !important;
+    line-height: 1.6;
+}
