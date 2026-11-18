@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Clean Car | Painel Administrativo</title>
+
+    <!-- BOOTSTRAP -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- BOOTSTRAP ICONS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- GOOGLE FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* ======================================
+           CONFIGURAÇÕES GERAIS
+        ====================================== */
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f4f6f9;
+            font-family: "Poppins", sans-serif;
+            color: #253047;
+        }
+
+        /* ======================================
+           CABEÇALHO
+        ====================================== */
+
+        .admin-header {
+            background: #172235;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .admin-header h1 {
+            margin: 0;
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .admin-header span {
+            color: #31b8e8;
+        }
+
+        /* ======================================
+           CONTEÚDO PRINCIPAL
+        ====================================== */
+
+        .admin-container {
+            max-width: 1100px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .admin-card h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .admin-description {
+            color: #667085;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* ======================================
+           AVISO DE DESENVOLVIMENTO
+        ====================================== */
+
+        .development-notice {
+            background: #eef5ff;
+            border: 1px solid #cfe2ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        /* ======================================
+           LISTA DE SERVIÇOS
+        ====================================== */
+
+        .services-title {
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        #admin-services .card {
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        #admin-services .card-body {
+            padding: 24px;
+        }
+
+        #admin-services .form-label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        #admin-services .form-control {
+            font-size: 14px;
+        }
+
+        #admin-services .form-check-input {
+            cursor: pointer;
+        }
+
+        /* ======================================
+           RESPONSIVIDADE
+        ====================================== */
+
+        @media (max-width: 768px) {
+
+            .admin-container {
+                margin: 25px auto;
+                padding: 0 12px;
+            }
+
+            .admin-card {
+                padding: 20px;
+            }
+
+            .admin-header {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ======================================
+         CABEÇALHO
+    ======================================= -->
+
+    <header class="admin-header">
+
+        <h1>
+            CLEAN<span>CAR</span>
+
+            <small class="d-block fs-6 fw-normal mt-2">
+                Painel Administrativo
+            </small>
+        </h1>
+
+    </header>
+
+    <!-- ======================================
+         CONTEÚDO PRINCIPAL
+    ======================================= -->
+
+    <main class="admin-container">
+
+        <div class="admin-card">
+
+            <h2>
+                <i class="bi bi-speedometer2 me-2"></i>
+                Gerenciamento de Serviços
+            </h2>
+
+            <p class="admin-description">
+                Gerencie os serviços da Clean Car,
+                consulte os valores cadastrados e
+                prepare as configurações que serão
+                utilizadas no site.
+            </p>
+
+            <!-- AVISO -->
+
+            <div class="development-notice">
+
+                <i class="bi bi-tools me-2"></i>
+
+                <strong>
+                    Ambiente de desenvolvimento.
+                </strong>
+
+                Os valores alterados nesta etapa são
+                temporários e não são enviados ao site público.
+
+            </div>
+
+            <!-- LISTA DE SERVIÇOS -->
+
+            <h3 class="services-title">
+
+                <i class="bi bi-list-check me-2"></i>
+
+                Serviços cadastrados
+
+            </h3>
+
+            <div id="admin-services">
+
+                <p class="text-muted">
+                    Carregando serviços...
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ======================================
+         JAVASCRIPT ADMINISTRATIVO
+    ======================================= -->
+
+    <script
+        type="module"
+        src="./admin.js"
+    ></script>
+
+</body>
+
+</html>
