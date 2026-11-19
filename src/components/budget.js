@@ -1,5 +1,33 @@
+﻿
+// ==========================================
+// CARREGAR SERVICOS ATIVOS DO D1
+// ==========================================
 
-import services from "../data/services.js";
+async function loadPublicServices() {
+    const response = await fetch("/api/services", {
+        cache: "no-store"
+    });
+
+    if (!response.ok) {
+        throw new Error(
+            `Falha ao consultar servicos: HTTP ${response.status}`
+        );
+    }
+
+    const data = await response.json();
+
+    if (
+        data.success !== true ||
+        !Array.isArray(data.services)
+    ) {
+        throw new Error("Resposta invalida da API de servicos.");
+    }
+
+    return data.services.filter(service => service.active !== false);
+}
+
+
+let services = [];
 
 // ==========================================
 // CLEAN CAR - ORÇAMENTO E AGENDAMENTO
@@ -11,6 +39,12 @@ const BOOKING_URL =
     "https://calendar.app.google/XRqN58Ankv8aJnUq6";
 
 const MAINTENANCE_SERVICE_ID = "limpeza-manutencao";
+
+const QUANTITY_LIMITS = {
+    "banco-dianteiro": 2,
+    "banco-traseiro": 3,
+    "forro-porta": 4
+};
 
 const CATEGORY_ORDER = [
     "Limpeza",
@@ -623,6 +657,8 @@ export function createBudget() {
         const hasQuantity =
             service.type === "quantity";
 
+        const maxQuantity = QUANTITY_LIMITS[service.id] ?? 99;
+
         option.innerHTML = `
             <input
                 type="checkbox"
@@ -654,6 +690,7 @@ export function createBudget() {
                                 type="number"
                                 class="service-quantity"
                                 data-quantity-id="${service.id}"
+                                max="${maxQuantity}"
                                 min="1"
                                 value="1"
                                 readonly
@@ -717,7 +754,7 @@ export function createBudget() {
                     !enabled ||
                     Number(quantityInput.value) <= 1;
 
-                plusButton.disabled = !enabled;
+                plusButton.disabled = !enabled || Number(quantityInput.value) >= maxQuantity;
 
                 if (!enabled) {
                     quantityInput.value = 1;
@@ -743,6 +780,9 @@ export function createBudget() {
                 minusButton.disabled =
                     Number(quantityInput.value) <= 1;
 
+                
+                plusButton.disabled = Number(quantityInput.value) >= maxQuantity;
+
                 calculateBudget();
             });
 
@@ -755,10 +795,12 @@ export function createBudget() {
                     return;
                 }
 
-                quantityInput.value =
-                    Number(quantityInput.value) + 1;
+                quantityInput.value = Math.min(maxQuantity, Number(quantityInput.value) + 1);
 
                 minusButton.disabled = false;
+
+                
+                plusButton.disabled = Number(quantityInput.value) >= maxQuantity;
 
                 calculateBudget();
             });
@@ -1341,9 +1383,22 @@ Gostaria de verificar a disponibilidade de um horário.
     // ======================================
     // INICIALIZAÇÃO
     // ======================================
+    servicesList.textContent = "Carregando serviços...";
 
-    createCategories();
-    calculateBudget();
+    loadPublicServices()
+        .then(loadedServices => {
+            services = loadedServices;
+            servicesList.textContent = "";
+            createCategories();
+            calculateBudget();
+        })
+        .catch(error => {
+            console.error("Erro ao carregar serviços:", error);
+            servicesList.textContent =
+                "Não foi possível carregar os serviços. Atualize a página para tentar novamente.";
+        });
 
     return section;
 }
+
+

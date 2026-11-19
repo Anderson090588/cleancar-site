@@ -4685,3 +4685,61 @@ html {
     color: #cccccc !important;
     line-height: 1.6;
 }
+
+/* ==========================================
+   CLEAN CAR - AJUSTES MOBILE DO ORÇAMENTO
+   ========================================== */
+
+@media (max-width: 650px) {
+
+    /* Espaçamento interno do orçamento */
+    #orcamento .budget-content {
+        padding: 20px 14px;
+    }
+
+    /* Evita que textos longos ultrapassem os cards */
+    #orcamento .service-option,
+    #orcamento .service-info,
+    #orcamento .budget-summary-info {
+        min-width: 0;
+    }
+
+    #orcamento .service-info strong,
+    #orcamento .service-info small,
+    #orcamento .budget-summary-info strong {
+        overflow-wrap: anywhere;
+    }
+
+    /* Barra de estado de conservação */
+    #vehicle-condition-group > div {
+        padding: 15px !important;
+        border-radius: 10px;
+    }
+
+    #vehicle-condition {
+        display: block;
+        width: 100%;
+        min-height: 32px;
+        margin: 10px 0;
+        touch-action: pan-y;
+    }
+
+    /* Aviso de vistoria */
+    #budget-inspection-notice {
+        padding: 15px !important;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    /* Botões de orçamento e agendamento */
+    #budget-booking,
+    #orcamento .budget-whatsapp {
+        width: 100%;
+        min-height: 52px;
+        padding: 14px 12px;
+        font-size: 14px;
+        line-height: 1.4;
+        white-space: normal;
+        touch-action: manipulation;
+    }
+}

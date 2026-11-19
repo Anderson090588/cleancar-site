@@ -1,5 +1,5 @@
-name = "clean-car-estetica"
-pages_build_output_dir = "."
+﻿name = "clean-car-estetica"
+pages_build_output_dir = "./dist"
 
 [[d1_databases]]
 binding = "DB"

@@ -1,1 +1,24 @@
+# Arquivos temporários do Cloudflare
 .wrangler/
+
+# Dependências do Node.js
+node_modules/
+
+# Configurações locais de desenvolvimento
+.dev.vars
+.dev.vars.*
+
+# Arquivos de configuração sensíveis
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+# Copias de seguranca do desenvolvimento
+*.bak
+*.bak-*
+
+*.bak2
+
+# Arquivos gerados para publicacao
+dist/

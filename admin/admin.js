@@ -1,4 +1,4 @@
-// ==========================================
+﻿// ==========================================
 // CLEAN CAR - PAINEL ADMINISTRATIVO
 // ==========================================
 // Versão de testes com leitura pela API D1.
@@ -10,6 +10,7 @@
 // ==========================================
 
 let adminServices = [];
+let originalServices = [];
 
 // ==========================================
 // CAMPOS DE PRECO
@@ -244,12 +245,9 @@ function renderServices() {
         activeInput.addEventListener("change", () => {
 
             service.active = activeInput.checked;
+            updateSaveButton();
 
-            console.log(
-                "Alteração local de status:",
-                service.id,
-                service.active
-            );
+            
 
         });
 
@@ -268,6 +266,7 @@ function renderServices() {
                     alert("Informe um preço válido.");
 
                     renderServices();
+        updateSaveButton();
 
                     return;
                 }
@@ -277,13 +276,9 @@ function renderServices() {
                     input.dataset.field,
                     value
                 );
+                updateSaveButton();
 
-                console.log(
-                    "Alteração local de preço:",
-                    service.id,
-                    input.dataset.field,
-                    value
-                );
+                
 
             });
 
@@ -293,10 +288,7 @@ function renderServices() {
 
     });
 
-    console.log(
-        "Serviços exibidos no painel:",
-        adminServices.length
-    );
+    
 }
 
 // ==========================================
@@ -318,7 +310,7 @@ async function loadServices() {
     try {
 
         const response = await fetch(
-            "/api/services",
+            "/api/admin/services",
             {
                 cache: "no-store"
             }
@@ -342,13 +334,12 @@ async function loadServices() {
         }
 
         adminServices = structuredClone(data.services);
+        originalServices = structuredClone(data.services);
 
         renderServices();
+        updateSaveButton();
 
-        console.log(
-            "Serviços carregados do banco D1:",
-            adminServices.length
-        );
+        
 
     } catch (error) {
 
@@ -368,7 +359,105 @@ async function loadServices() {
 }
 
 // ==========================================
+
+// ==========================================
+// CONTROLE DE ALTERACOES
+// ==========================================
+
+function getModifiedServices() {
+    return adminServices.filter(service => {
+        const original = originalServices.find(
+            item => item.id === service.id
+        );
+
+        return original &&
+            JSON.stringify(service) !== JSON.stringify(original);
+    });
+}
+
+function updateSaveButton() {
+    const button = document.querySelector("#save-services");
+    const status = document.querySelector("#save-status");
+
+    if (!button || !status) return;
+
+    const modified = getModifiedServices();
+
+    button.disabled = modified.length === 0;
+
+    status.textContent = modified.length
+        ? `${modified.length} serviço(s) com alterações pendentes.`
+        : "Nenhuma alteração pendente.";
+}
+
+// ==========================================
+// SALVAR ALTERACOES NO D1
+// ==========================================
+
+async function saveServices() {
+    const button = document.querySelector("#save-services");
+    const status = document.querySelector("#save-status");
+
+    const modified = getModifiedServices();
+
+    if (!modified.length) return;
+
+    button.disabled = true;
+    status.textContent = "Salvando alterações...";
+
+    let saved = 0;
+
+    try {
+        for (const service of modified) {
+            const response = await fetch("/api/admin/services", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(service)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || data.success !== true) {
+                throw new Error(
+                    data.message || `Erro HTTP ${response.status}`
+                );
+            }
+
+            const index = originalServices.findIndex(
+                item => item.id === service.id
+            );
+
+            if (index !== -1) {
+                originalServices[index] = structuredClone(service);
+            }
+
+            saved++;
+        }
+
+        status.textContent =
+            `${saved} serviço(s) salvo(s) com sucesso!`;
+
+    } catch (error) {
+        console.error("Erro ao salvar serviços:", error);
+
+        status.textContent =
+            `Erro ao salvar: ${error.message}`;
+    } finally {
+        updateSaveButton();
+    }
+}
+
+// ==========================================
+// EVENTO DO BOTAO SALVAR
+// ==========================================
+
+document.querySelector("#save-services")
+    ?.addEventListener("click", saveServices);
+
 // INICIALIZACAO
 // ==========================================
 
 loadServices();
+
