@@ -1,0 +1,7 @@
+name = "clean-car-estetica"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "clean-car-db"
+database_id = "7e502e38-0277-4126-b84b-7e509f0cba96"

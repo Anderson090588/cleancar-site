@@ -1,14 +1,15 @@
 // ==========================================
 // CLEAN CAR - PAINEL ADMINISTRATIVO
 // ==========================================
-
-import services from "../src/data/services.js";
-
-// ==========================================
-// COPIA DOS SERVICOS PARA TESTES
+// Versão de testes com leitura pela API D1.
+// As alterações ainda não são salvas.
 // ==========================================
 
-const adminServices = structuredClone(services);
+// ==========================================
+// DADOS DOS SERVICOS
+// ==========================================
+
+let adminServices = [];
 
 // ==========================================
 // CAMPOS DE PRECO
@@ -148,7 +149,7 @@ function createPriceFields(service) {
 }
 
 // ==========================================
-// ATUALIZAR CAMPOS
+// ATUALIZAR CAMPOS LOCALMENTE
 // ==========================================
 
 function updateServiceField(service, field, value) {
@@ -158,6 +159,10 @@ function updateServiceField(service, field, value) {
     if (keys.length === 2) {
 
         const [parent, child] = keys;
+
+        if (!service[parent]) {
+            service[parent] = {};
+        }
 
         service[parent][child] = value;
 
@@ -240,6 +245,12 @@ function renderServices() {
 
             service.active = activeInput.checked;
 
+            console.log(
+                "Alteração local de status:",
+                service.id,
+                service.active
+            );
+
         });
 
         card.querySelectorAll("[data-field]").forEach(input => {
@@ -267,6 +278,13 @@ function renderServices() {
                     value
                 );
 
+                console.log(
+                    "Alteração local de preço:",
+                    service.id,
+                    input.dataset.field,
+                    value
+                );
+
             });
 
         });
@@ -276,13 +294,81 @@ function renderServices() {
     });
 
     console.log(
-        "Serviços carregados:",
+        "Serviços exibidos no painel:",
         adminServices.length
     );
+}
+
+// ==========================================
+// CARREGAR SERVICOS DA API
+// ==========================================
+
+async function loadServices() {
+
+    const container =
+        document.querySelector("#admin-services");
+
+    if (!container) {
+        console.error("Container de serviços não encontrado.");
+        return;
+    }
+
+    container.textContent = "Carregando serviços...";
+
+    try {
+
+        const response = await fetch(
+            "/api/services",
+            {
+                cache: "no-store"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Erro HTTP ${response.status}`
+            );
+        }
+
+        const data = await response.json();
+
+        if (
+            data.success !== true ||
+            !Array.isArray(data.services)
+        ) {
+            throw new Error(
+                "Resposta inválida da API."
+            );
+        }
+
+        adminServices = structuredClone(data.services);
+
+        renderServices();
+
+        console.log(
+            "Serviços carregados do banco D1:",
+            adminServices.length
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao carregar serviços:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                Não foi possível carregar os serviços.
+                Verifique se o servidor local está funcionando.
+            </div>
+        `;
+
+    }
 }
 
 // ==========================================
 // INICIALIZACAO
 // ==========================================
 
-renderServices();
+loadServices();
