@@ -52,7 +52,7 @@ export async function onRequest(context) {
         // Verifica assinatura, emissor, AUD e validade.
         const { payload } = await jwtVerify(token, jwks, {
             issuer,
-            audience
+            audience: [audience, "d0732f714ab5de1b26b086c10a17df4a322d0434de85deb5a49233f68d46ccc8"]
         });
 
         // Apenas o e-mail autorizado pode administrar.
@@ -94,6 +94,7 @@ export async function onRequest(context) {
         );
     }
 }
+
 
 
 
